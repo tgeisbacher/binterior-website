@@ -239,6 +239,76 @@
         );
       }
 
+      /* Slide Indicators */
+      .slide-indicators {
+        position: absolute;
+        bottom: 40px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 15px;
+        z-index: 3;
+      }
+
+      .indicator {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 255, 255, 0.7);
+        background: transparent;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .indicator.active {
+        background: var(--primary-color);
+        border-color: var(--primary-color);
+        transform: scale(1.2);
+      }
+
+      .indicator:hover {
+        background: rgba(255, 255, 255, 0.5);
+      }
+
+      /* Slide Controls */
+      .slide-control {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        z-index: 3;
+        color: var(--light);
+        font-size: 20px;
+      }
+
+      .slide-control:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-50%) scale(1.1);
+      }
+
+      .slide-control.prev {
+        left: 30px;
+      }
+
+      .slide-control.next {
+        right: 30px;
+      }
+
+      .slide-control svg {
+        width: 24px;
+        height: 24px;
+        fill: currentColor;
+      }
+
       .hero-content {
         text-align: center;
         z-index: 2;
@@ -994,6 +1064,27 @@
         </div>
       </div>
 
+      <!-- Slide Controls -->
+      <div class="slide-control prev">
+        <svg viewBox="0 0 24 24">
+          <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+        </svg>
+      </div>
+      <div class="slide-control next">
+        <svg viewBox="0 0 24 24">
+          <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+        </svg>
+      </div>
+
+      <!-- Slide Indicators -->
+      <div class="slide-indicators">
+        <span class="indicator active" data-slide="0"></span>
+        <span class="indicator" data-slide="1"></span>
+        <span class="indicator" data-slide="2"></span>
+        <span class="indicator" data-slide="3"></span>
+        <span class="indicator" data-slide="4"></span>
+      </div>
+
       <!-- Hero Content -->
       <div class="hero-content">
         <h1>Binterior</h1>
@@ -1166,6 +1257,75 @@
       function stopSlideshow() {
         clearInterval(slideInterval);
       }
+
+      // Event listeners for controls
+      document.querySelector('.slide-control.next').addEventListener('click', () => {
+        stopSlideshow();
+        nextSlide();
+        startSlideshow();
+      });
+
+      document.querySelector('.slide-control.prev').addEventListener('click', () => {
+        stopSlideshow();
+        prevSlide();
+        startSlideshow();
+      });
+
+      // Event listeners for indicators
+      indicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', () => {
+          stopSlideshow();
+          showSlide(index);
+          startSlideshow();
+        });
+      });
+
+      // Keyboard navigation
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') {
+          stopSlideshow();
+          prevSlide();
+          startSlideshow();
+        } else if (e.key === 'ArrowRight') {
+          stopSlideshow();
+          nextSlide();
+          startSlideshow();
+        }
+      });
+
+      // Touch/swipe support for mobile
+      let touchStartX = 0;
+      let touchEndX = 0;
+      
+      const heroSection = document.querySelector('.hero');
+      
+      heroSection.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      });
+      
+      heroSection.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+      });
+      
+      function handleSwipe() {
+        if (touchEndX < touchStartX - 50) {
+          // Swiped left
+          stopSlideshow();
+          nextSlide();
+          startSlideshow();
+        }
+        if (touchEndX > touchStartX + 50) {
+          // Swiped right
+          stopSlideshow();
+          prevSlide();
+          startSlideshow();
+        }
+      }
+
+      // Pause slideshow on hover
+      heroSection.addEventListener('mouseenter', stopSlideshow);
+      heroSection.addEventListener('mouseleave', startSlideshow);
 
       // Start the slideshow
       startSlideshow();
