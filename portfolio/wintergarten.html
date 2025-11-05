@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wintergarten - Binterior</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --primary-color: #787d5e;
+        --dark: #2c2c2c;
+        --light: #ffffff;
+        --gray: #f5f5f5;
+        --text-gray: #666;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        line-height: 1.6;
+        color: var(--dark);
+        background: var(--light);
+      }
+
+      nav {
+        position: fixed;
+        width: 100%;
+        padding: 20px 50px;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        z-index: 1000;
+        transition: all 0.3s ease;
+      }
+
+      nav.scrolled {
+        padding: 15px 50px;
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .nav-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .logo {
+        font-size: 28px;
+        font-weight: 300;
+        letter-spacing: -1px;
+        color: var(--primary-color);
+        cursor: pointer;
+        transition: opacity 0.3s ease;
+      }
+
+      .logo:hover {
+        opacity: 0.8;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 40px;
+        list-style: none;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: var(--dark);
+        font-size: 14px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        transition: color 0.3s ease;
+        position: relative;
+      }
+
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: var(--primary-color);
+        transition: width 0.3s ease;
+      }
+
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+
+      /* Dropdown Menu Styles */
+      .nav-item {
+        position: relative;
+      }
+
+      .dropdown {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(120, 125, 94, 0.1);
+        padding: 20px 0;
+        margin-top: 20px;
+        min-width: 250px;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        z-index: 1000;
+      }
+
+      .dropdown::before {
+        content: "";
+        position: absolute;
+        top: -8px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        border-bottom: 8px solid rgba(255, 255, 255, 0.98);
+      }
+
+      .nav-item:hover .dropdown {
+        opacity: 1;
+        visibility: visible;
+        margin-top: 15px;
+      }
+
+      .dropdown-item {
+        display: block;
+        padding: 12px 30px;
+        color: var(--dark);
+        text-decoration: none;
+        font-size: 13px;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .dropdown-item::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 3px;
+        background: var(--primary-color);
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+      }
+
+      .dropdown-item:hover {
+        background: rgba(120, 125, 94, 0.05);
+        padding-left: 35px;
+      }
+
+      .dropdown-item:hover::before {
+        transform: translateX(0);
+      }
+
+      .dropdown-label {
+        padding: 8px 30px;
+        font-size: 11px;
+        color: var(--primary-color);
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        border-bottom: 1px solid rgba(120, 125, 94, 0.1);
+        margin-bottom: 10px;
+        font-weight: 500;
+      }
+
+      /* Project Header */
+      .project-header {
+        padding: 140px 50px 80px;
+        text-align: center;
+        background: linear-gradient(135deg, var(--gray) 0%, var(--light) 100%);
+      }
+
+      .project-title {
+        font-size: clamp(40px, 5vw, 60px);
+        font-weight: 200;
+        letter-spacing: -1px;
+        color: var(--primary-color);
+        margin-bottom: 20px;
+        opacity: 0;
+        animation: fadeInUp 0.8s ease forwards;
+      }
+
+      .project-info {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        margin-top: 30px;
+        opacity: 0;
+        animation: fadeInUp 0.8s ease 0.2s forwards;
+      }
+
+      .info-item {
+        font-size: 14px;
+        color: var(--text-gray);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .info-item span {
+        color: var(--dark);
+        font-weight: 400;
+      }
+
+      /* Project Description */
+      .project-description {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 60px 50px;
+        text-align: center;
+      }
+
+      .project-description p {
+        font-size: 18px;
+        line-height: 1.8;
+        color: var(--text-gray);
+        margin-bottom: 20px;
+      }
+
+      /* Image Grid */
+      .image-grid {
+        padding: 0 50px 100px;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .grid-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 30px;
+      }
+
+      .grid-item {
+        position: relative;
+        overflow: hidden;
+        background: var(--gray);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        aspect-ratio: 4/3;
+      }
+
+      .grid-item.full-width {
+        grid-column: 1 / -1;
+        aspect-ratio: 21/9;
+      }
+
+      .grid-item.tall {
+        grid-row: span 2;
+        aspect-ratio: 3/4;
+      }
+
+      .grid-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+      }
+
+      .grid-item:hover img {
+        transform: scale(1.05);
+      }
+
+      .grid-item:hover {
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Placeholder for images */
+      .grid-item::before {
+        content: attr(data-placeholder);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: var(--text-gray);
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        opacity: 0.5;
+      }
+
+      /* Lightbox */
+      .lightbox {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.95);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+        padding: 50px;
+      }
+
+      .lightbox.active {
+        display: flex;
+      }
+
+      .lightbox img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        animation: lightboxFadeIn 0.3s ease;
+      }
+
+      .lightbox-close {
+        position: absolute;
+        top: 30px;
+        right: 50px;
+        font-size: 40px;
+        color: var(--light);
+        cursor: pointer;
+        transition: opacity 0.3s ease;
+        z-index: 2001;
+      }
+
+      .lightbox-close:hover {
+        opacity: 0.7;
+      }
+
+      /* Project Details */
+      .project-details {
+        background: var(--gray);
+        padding: 80px 50px;
+      }
+
+      .details-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 60px;
+      }
+
+      .detail-block h3 {
+        font-size: 20px;
+        font-weight: 400;
+        color: var(--primary-color);
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .detail-block p,
+      .detail-block li {
+        font-size: 16px;
+        line-height: 1.8;
+        color: var(--text-gray);
+      }
+
+      .detail-block ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      .detail-block li {
+        padding: 8px 0;
+        border-bottom: 1px solid rgba(120, 125, 94, 0.1);
+      }
+
+      .detail-block li:last-child {
+        border-bottom: none;
+      }
+
+      /* Next Project */
+      .next-project {
+        padding: 100px 50px;
+        text-align: center;
+        background: var(--light);
+      }
+
+      .next-project h3 {
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: var(--text-gray);
+        margin-bottom: 20px;
+      }
+
+      .next-project-link {
+        display: inline-block;
+        font-size: 40px;
+        font-weight: 300;
+        color: var(--primary-color);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .next-project-link::after {
+        content: "→";
+        position: absolute;
+        right: -50px;
+        opacity: 0;
+        transition: all 0.3s ease;
+      }
+
+      .next-project-link:hover {
+        padding-right: 60px;
+      }
+
+      .next-project-link:hover::after {
+        opacity: 1;
+        right: 0;
+      }
+
+      /* Footer */
+      footer {
+        padding: 30px;
+        background: var(--dark);
+        color: var(--light);
+        text-align: center;
+        font-size: 14px;
+      }
+
+      /* Animations */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes lightboxFadeIn {
+        from {
+          opacity: 0;
+          transform: scale(0.9);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      .fade-in {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s ease;
+      }
+
+      .fade-in.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        nav {
+          padding: 15px 20px;
+        }
+
+        .nav-links {
+          display: none;
+        }
+
+        .back-btn {
+          left: 20px;
+          width: 40px;
+          height: 40px;
+        }
+
+        .project-header {
+          padding: 100px 20px 60px;
+        }
+
+        .project-info {
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .grid-container {
+          grid-template-columns: 1fr;
+        }
+
+        .image-grid {
+          padding: 0 20px 60px;
+        }
+
+        .project-details {
+          padding: 60px 20px;
+        }
+
+        .details-container {
+          grid-template-columns: 1fr;
+          gap: 40px;
+        }
+
+        .next-project-link {
+          font-size: 30px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav id="navbar">
+      <div class="nav-container">
+        <div class="logo">Binterior</div>
+        <ul class="nav-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html">About</a></li>
+          <li><a href="../index.html">Services</a></li>
+          <li class="nav-item">
+            <a href="#portfolio" class="has-dropdown"
+              >Portfolio
+              <span style="font-size: 10px; margin-left: 4px">▼</span></a
+            >
+            <div class="dropdown">
+              <div class="dropdown-label">Projekte</div>
+              <a
+                href="appartement-art.html"
+                class="dropdown-item"
+                data-project="0"
+                >Appartement "Art"</a
+              >
+              <a href="wintergarten.html" class="dropdown-item" data-project="1"
+                >Wintergarten</a
+              >
+              <a
+                href="airbnb-dachgeschoss.html"
+                class="dropdown-item"
+                data-project="2"
+                >Airbnb Wohnung Dachgeschoss</a
+              >
+              <a
+                href="heller-wohnbereich.html"
+                class="dropdown-item"
+                data-project="3"
+                >Heller Wohnbereich</a
+              >
+              <a
+                href="kuechen-wohnbereich.html"
+                class="dropdown-item"
+                data-project="4"
+                >Küchen- und Wohnbereich</a
+              >
+            </div>
+          </li>
+          <li><a href="../index.html">Kontakt</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Project Header -->
+    <section class="project-header">
+      <h1 class="project-title">Wintergarten</h1>
+      <div class="project-info">
+        <div class="info-item">Jahr: <span>2024</span></div>
+        <div class="info-item">Ort: <span>Graz Umgebung</span></div>
+        <div class="info-item">Größe: <span>45 m²</span></div>
+      </div>
+    </section>
+
+    <!-- Image Grid -->
+    <section class="image-grid">
+      <div class="grid-container">
+        <div
+          class="grid-item full-width"
+          data-placeholder="Wintergarten Panorama"
+        >
+          <img src="./IMG_1870-neu.jpg" alt="Wintergarten - Gesamtansicht" />
+        </div>
+        <div class="grid-item" data-placeholder="Sitzbereich">
+          <img src="./placeholder-winter-1.jpg" alt="Gemütlicher Sitzbereich" />
+        </div>
+        <div class="grid-item" data-placeholder="Pflanzenecke">
+          <img src="./placeholder-winter-2.jpg" alt="Grüne Pflanzenecke" />
+        </div>
+        <div class="grid-item" data-placeholder="Glasdach">
+          <img src="./placeholder-winter-3.jpg" alt="Glasdach Detail" />
+        </div>
+        <div class="grid-item tall" data-placeholder="Vertikaler Garten">
+          <img src="./placeholder-winter-4.jpg" alt="Vertikaler Garten" />
+        </div>
+        <div class="grid-item" data-placeholder="Abendstimmung">
+          <img src="./placeholder-winter-5.jpg" alt="Wintergarten am Abend" />
+        </div>
+        <div class="grid-item" data-placeholder="Lounge">
+          <img src="./placeholder-winter-6.jpg" alt="Lounge Bereich" />
+        </div>
+        <div class="grid-item" data-placeholder="Details">
+          <img src="./placeholder-winter-7.jpg" alt="Designdetails" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+      <span class="lightbox-close">&times;</span>
+      <img src="" alt="" />
+    </div>
+
+    <!-- Next Project -->
+    <section class="next-project">
+      <h3>Nächstes Projekt</h3>
+      <a href="airbnb-dachgeschoss.html" class="next-project-link"
+        >Airbnb Wohnung</a
+      >
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2025 Binterior. All rights reserved. | Design with passion.</p>
+    </footer>
+
+    <script>
+      // Lightbox functionality
+      const lightbox = document.getElementById("lightbox");
+      const lightboxImg = lightbox.querySelector("img");
+      const lightboxClose = lightbox.querySelector(".lightbox-close");
+      const gridItems = document.querySelectorAll(".grid-item");
+
+      gridItems.forEach((item) => {
+        item.addEventListener("click", () => {
+          const img = item.querySelector("img");
+          if (img && img.src) {
+            lightboxImg.src = img.src;
+            lightboxImg.alt = img.alt;
+            lightbox.classList.add("active");
+            document.body.style.overflow = "hidden";
+          }
+        });
+      });
+
+      lightboxClose.addEventListener("click", () => {
+        lightbox.classList.remove("active");
+        document.body.style.overflow = "";
+      });
+
+      lightbox.addEventListener("click", (e) => {
+        if (e.target === lightbox) {
+          lightbox.classList.remove("active");
+          document.body.style.overflow = "";
+        }
+      });
+
+      // Escape key to close lightbox
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && lightbox.classList.contains("active")) {
+          lightbox.classList.remove("active");
+          document.body.style.overflow = "";
+        }
+      });
+
+      // Fade in animation on scroll
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          }
+        });
+      }, observerOptions);
+
+      document.querySelectorAll(".fade-in").forEach((el) => {
+        observer.observe(el);
+      });
+    </script>
+  </body>
+</html>
