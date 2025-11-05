@@ -408,6 +408,20 @@
           transform: translateY(0);
         }
       }
+      /* Desktop only styles */
+      @media (min-width: 769px) {
+        .mobile-menu {
+          display: none !important;
+        }
+
+        .hamburger {
+          display: none !important;
+        }
+
+        .mobile-menu-overlay {
+          display: none !important;
+        }
+      }
     </style>
   </head>
   <body>
@@ -460,8 +474,52 @@
           </li>
           <li><a href="./index.html">Kontakt</a></li>
         </ul>
+        <!-- Hamburger Menu Button -->
+        <div class="hamburger" id="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
       </div>
     </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu" id="mobileMenu">
+      <div class="mobile-menu-content">
+        <ul class="mobile-nav-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html">About</a></li>
+          <li><a href="../index.html">Services</a></li>
+          <li class="mobile-dropdown">
+            <a href="#portfolio" class="mobile-dropdown-toggle"
+              >Portfolio <span>▼</span></a
+            >
+            <ul class="mobile-dropdown-menu">
+              <li>
+                <a href="./portfolio/appartement-art.html">Appartement "Art"</a>
+              </li>
+              <li><a href="./portfolio/wintergarten.html">Wintergarten</a></li>
+              <li>
+                <a href="./portfolio/airbnb-dachgeschoss.html"
+                  >Airbnb Wohnung</a
+                >
+              </li>
+              <li>
+                <a href="./portfolio/heller-wohnbereich.html"
+                  >Heller Wohnbereich</a
+                >
+              </li>
+              <li>
+                <a href="./portfolio/kuechen-wohnbereich.html"
+                  >Küchen & Wohnbereich</a
+                >
+              </li>
+            </ul>
+          </li>
+          <li><a href="../index.html">Kontakt</a></li>
+        </ul>
+      </div>
+    </div>
 
     <!-- Main Content -->
     <main class="main-content">
@@ -470,21 +528,19 @@
 
         <div class="contact-block">
           <p><strong>Binterior</strong></p>
-          <p>Bibiana [Nachname]</p>
+          <p>Bibiana Kienreich</p>
           <p>Interior Design & Raumgestaltung</p>
-          <p>[Straße und Hausnummer]</p>
+          <p>Grabenstraße 13 EG</p>
           <p>8010 Graz</p>
           <p>Österreich</p>
         </div>
 
         <h2>Kontakt</h2>
-        <p>Telefon: +43 [Telefonnummer]</p>
+        <p>Telefon: +436642625705</p>
         <p>
-          E-Mail: <a href="mailto:hello@binterior.com">hello@binterior.com</a>
+          E-Mail: <a href="mailto:hello@binterior.at">hello@binterior.at</a>
         </p>
-        <p>
-          Website: <a href="https://www.binterior.com">www.binterior.com</a>
-        </p>
+        <p>Website: <a href="https://www.binterior.at">www.binterior.at</a></p>
 
         <div class="section-divider"></div>
 
@@ -494,25 +550,19 @@
           Einrichtungsplanung und -konzeption
         </p>
 
-        <h2>Berufsrecht</h2>
+        <!-- <h2>Berufsrecht</h2>
         <p>Gewerbeberechtigung: Freies Gewerbe</p>
         <p>
           Gewerbeordnung:
           <a href="https://www.ris.bka.gv.at" target="_blank"
             >www.ris.bka.gv.at</a
           >
-        </p>
+        </p> -->
 
         <div class="section-divider"></div>
 
         <h2>Umsatzsteuer-ID</h2>
-        <p>UID-Nummer: ATU[Nummer]</p>
-
-        <h2>Mitgliedschaften</h2>
-        <ul>
-          <li>Wirtschaftskammer Österreich, Steiermark</li>
-          <li>Fachgruppe: [Entsprechende Fachgruppe]</li>
-        </ul>
+        <p>UID-Nummer: ATU80426923</p>
 
         <div class="section-divider"></div>
 
@@ -583,14 +633,6 @@
 
         <div class="section-divider"></div>
 
-        <h2>Streitschlichtung</h2>
-        <p>
-          Die Europäische Kommission stellt eine Plattform zur
-          Online-Streitbeilegung (OS) bereit:
-          <a href="https://ec.europa.eu/consumers/odr" target="_blank"
-            >https://ec.europa.eu/consumers/odr</a
-          >
-        </p>
         <p>Unsere E-Mail-Adresse finden Sie oben im Impressum.</p>
         <p>
           Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren
@@ -617,5 +659,79 @@
         </p>
       </div>
     </footer>
+    <script>
+      // Hamburger Menu Functionality
+      const hamburger = document.getElementById("hamburger");
+      const mobileMenu = document.getElementById("mobileMenu");
+      const mobileDropdown = document.querySelector(".mobile-dropdown");
+      const mobileLinks = document.querySelectorAll(".mobile-nav-links a");
+      let menuOverlay;
+
+      // Create overlay element
+      menuOverlay = document.createElement("div");
+      menuOverlay.className = "mobile-menu-overlay";
+      document.body.appendChild(menuOverlay);
+
+      // Toggle mobile menu
+      function toggleMobileMenu() {
+        hamburger.classList.toggle("active");
+        mobileMenu.classList.toggle("active");
+        menuOverlay.classList.toggle("active");
+        document.body.classList.toggle("menu-open");
+      }
+
+      // Close mobile menu
+      function closeMobileMenu() {
+        hamburger.classList.remove("active");
+        mobileMenu.classList.remove("active");
+        menuOverlay.classList.remove("active");
+        document.body.classList.remove("menu-open");
+      }
+
+      // Hamburger click event
+      hamburger.addEventListener("click", toggleMobileMenu);
+
+      // Overlay click event
+      menuOverlay.addEventListener("click", closeMobileMenu);
+
+      // Mobile dropdown toggle
+      const mobileDropdownToggle = document.querySelector(
+        ".mobile-dropdown-toggle"
+      );
+      if (mobileDropdownToggle) {
+        mobileDropdownToggle.addEventListener("click", (e) => {
+          e.preventDefault();
+          mobileDropdown.classList.toggle("active");
+        });
+      }
+
+      // Close menu when clicking on links (except dropdown toggle)
+      mobileLinks.forEach((link) => {
+        if (!link.classList.contains("mobile-dropdown-toggle")) {
+          link.addEventListener("click", () => {
+            closeMobileMenu();
+            // If it's an anchor link, smooth scroll
+            const href = link.getAttribute("href");
+            if (href && href.startsWith("#")) {
+              e.preventDefault();
+              const target = document.querySelector(href);
+              if (target) {
+                target.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                });
+              }
+            }
+          });
+        }
+      });
+
+      // Close menu on escape key
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && mobileMenu.classList.contains("active")) {
+          closeMobileMenu();
+        }
+      });
+    </script>
   </body>
 </html>

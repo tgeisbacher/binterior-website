@@ -467,6 +467,170 @@
         transform: translateY(0);
       }
 
+      /* Hamburger Menu Styles */
+      .hamburger {
+        display: none;
+        width: 30px;
+        height: 24px;
+        position: relative;
+        cursor: pointer;
+        z-index: 1002;
+        transition: all 0.3s ease;
+      }
+
+      .hamburger span {
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        background: var(--primary-color);
+        transition: all 0.3s ease;
+        transform-origin: center;
+      }
+
+      .hamburger span:nth-child(1) {
+        top: 0;
+      }
+
+      .hamburger span:nth-child(2) {
+        top: 11px;
+      }
+
+      .hamburger span:nth-child(3) {
+        bottom: 0;
+      }
+
+      .hamburger.active span:nth-child(1) {
+        transform: translateY(11px) rotate(45deg);
+      }
+
+      .hamburger.active span:nth-child(2) {
+        opacity: 0;
+        transform: scaleX(0);
+      }
+
+      .hamburger.active span:nth-child(3) {
+        transform: translateY(-11px) rotate(-45deg);
+      }
+
+      /* Mobile Menu Overlay */
+      .mobile-menu {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 80%;
+        max-width: 400px;
+        height: 100vh;
+        background: var(--light);
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
+        transition: right 0.3s ease;
+        z-index: 1001;
+        overflow-y: auto;
+      }
+
+      .mobile-menu.active {
+        right: 0;
+      }
+
+      .mobile-menu-content {
+        padding: 80px 30px 30px;
+      }
+
+      .mobile-nav-links {
+        list-style: none;
+        padding: 0;
+      }
+
+      .mobile-nav-links li {
+        margin-bottom: 10px;
+      }
+
+      .mobile-nav-links a {
+        display: block;
+        padding: 15px 20px;
+        color: var(--dark);
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: 300;
+        letter-spacing: 1px;
+        transition: all 0.3s ease;
+        border-left: 3px solid transparent;
+      }
+
+      .mobile-nav-links a:hover,
+      .mobile-nav-links a:active {
+        background: var(--gray);
+        border-left-color: var(--primary-color);
+        padding-left: 30px;
+      }
+
+      /* Mobile Dropdown */
+      .mobile-dropdown {
+        position: relative;
+      }
+
+      .mobile-dropdown-toggle {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .mobile-dropdown-toggle span {
+        font-size: 12px;
+        transition: transform 0.3s ease;
+      }
+
+      .mobile-dropdown.active .mobile-dropdown-toggle span {
+        transform: rotate(180deg);
+      }
+
+      .mobile-dropdown-menu {
+        display: none;
+        list-style: none;
+        padding: 0;
+        background: var(--gray);
+        margin: 5px 0 10px 0;
+      }
+
+      .mobile-dropdown.active .mobile-dropdown-menu {
+        display: block;
+      }
+
+      .mobile-dropdown-menu a {
+        padding: 12px 20px 12px 40px;
+        font-size: 14px;
+        border-left: 3px solid transparent;
+      }
+
+      .mobile-dropdown-menu a:hover {
+        background: rgba(120, 125, 94, 0.1);
+        border-left-color: var(--primary-color);
+      }
+
+      /* Dark overlay when menu is open */
+      .mobile-menu-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        z-index: 1000;
+      }
+
+      .mobile-menu-overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      /* Prevent body scroll when menu is open */
+      body.menu-open {
+        overflow: hidden;
+      }
+
       /* Responsive */
       @media (max-width: 768px) {
         nav {
@@ -477,10 +641,8 @@
           display: none;
         }
 
-        .back-btn {
-          left: 20px;
-          width: 40px;
-          height: 40px;
+        .hamburger {
+          display: block;
         }
 
         .project-header {
@@ -511,6 +673,20 @@
 
         .next-project-link {
           font-size: 30px;
+        }
+      }
+      /* Desktop only styles */
+      @media (min-width: 769px) {
+        .mobile-menu {
+          display: none !important;
+        }
+
+        .hamburger {
+          display: none !important;
+        }
+
+        .mobile-menu-overlay {
+          display: none !important;
         }
       }
     </style>
@@ -562,16 +738,54 @@
           </li>
           <li><a href="../index.html">Kontakt</a></li>
         </ul>
+        <!-- Hamburger Menu Button -->
+        <div class="hamburger" id="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
       </div>
     </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu" id="mobileMenu">
+      <div class="mobile-menu-content">
+        <ul class="mobile-nav-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html">About</a></li>
+          <li><a href="../index.html">Services</a></li>
+          <li class="mobile-dropdown">
+            <a href="#portfolio" class="mobile-dropdown-toggle"
+              >Portfolio <span>▼</span></a
+            >
+            <ul class="mobile-dropdown-menu">
+              <li>
+                <a href="appartement-art.html">Appartement "Art"</a>
+              </li>
+              <li><a href="wintergarten.html">Wintergarten</a></li>
+              <li>
+                <a href="airbnb-dachgeschoss.html">Airbnb Wohnung</a>
+              </li>
+              <li>
+                <a href="heller-wohnbereich.html">Heller Wohnbereich</a>
+              </li>
+              <li>
+                <a href="kuechen-wohnbereich.html">Küchen & Wohnbereich</a>
+              </li>
+            </ul>
+          </li>
+          <li><a href="../index.html">Kontakt</a></li>
+        </ul>
+      </div>
+    </div>
 
     <!-- Project Header -->
     <section class="project-header">
       <h1 class="project-title">Wintergarten</h1>
       <div class="project-info">
-        <div class="info-item">Jahr: <span>2024</span></div>
+        <div class="info-item">Jahr: <span>2025</span></div>
         <div class="info-item">Ort: <span>Graz Umgebung</span></div>
-        <div class="info-item">Größe: <span>45 m²</span></div>
+        <div class="info-item">Größe: <span>43 m²</span></div>
       </div>
     </section>
 
@@ -691,6 +905,78 @@
 
       document.querySelectorAll(".fade-in").forEach((el) => {
         observer.observe(el);
+      });
+      // Hamburger Menu Functionality
+      const hamburger = document.getElementById("hamburger");
+      const mobileMenu = document.getElementById("mobileMenu");
+      const mobileDropdown = document.querySelector(".mobile-dropdown");
+      const mobileLinks = document.querySelectorAll(".mobile-nav-links a");
+      let menuOverlay;
+
+      // Create overlay element
+      menuOverlay = document.createElement("div");
+      menuOverlay.className = "mobile-menu-overlay";
+      document.body.appendChild(menuOverlay);
+
+      // Toggle mobile menu
+      function toggleMobileMenu() {
+        hamburger.classList.toggle("active");
+        mobileMenu.classList.toggle("active");
+        menuOverlay.classList.toggle("active");
+        document.body.classList.toggle("menu-open");
+      }
+
+      // Close mobile menu
+      function closeMobileMenu() {
+        hamburger.classList.remove("active");
+        mobileMenu.classList.remove("active");
+        menuOverlay.classList.remove("active");
+        document.body.classList.remove("menu-open");
+      }
+
+      // Hamburger click event
+      hamburger.addEventListener("click", toggleMobileMenu);
+
+      // Overlay click event
+      menuOverlay.addEventListener("click", closeMobileMenu);
+
+      // Mobile dropdown toggle
+      const mobileDropdownToggle = document.querySelector(
+        ".mobile-dropdown-toggle"
+      );
+      if (mobileDropdownToggle) {
+        mobileDropdownToggle.addEventListener("click", (e) => {
+          e.preventDefault();
+          mobileDropdown.classList.toggle("active");
+        });
+      }
+
+      // Close menu when clicking on links (except dropdown toggle)
+      mobileLinks.forEach((link) => {
+        if (!link.classList.contains("mobile-dropdown-toggle")) {
+          link.addEventListener("click", () => {
+            closeMobileMenu();
+            // If it's an anchor link, smooth scroll
+            const href = link.getAttribute("href");
+            if (href && href.startsWith("#")) {
+              e.preventDefault();
+              const target = document.querySelector(href);
+              if (target) {
+                target.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                });
+              }
+            }
+          });
+        }
+      });
+
+      // Close menu on escape key
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && mobileMenu.classList.contains("active")) {
+          closeMobileMenu();
+        }
       });
     </script>
   </body>
