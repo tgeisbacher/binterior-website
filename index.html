@@ -274,10 +274,6 @@
       .slide-control {
         position: absolute;
         top: 50%;
-        transform: translateY(-50%);
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
         width: 50px;
         height: 50px;
         display: flex;
@@ -288,11 +284,6 @@
         z-index: 3;
         color: var(--light);
         font-size: 20px;
-      }
-
-      .slide-control:hover {
-        background: rgba(255, 255, 255, 0.2);
-        transform: translateY(-50%) scale(1.1);
       }
 
       .slide-control.prev {
@@ -1066,14 +1057,9 @@
 
       <!-- Slide Controls -->
       <div class="slide-control prev">
-        <svg viewBox="0 0 24 24">
-          <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
-        </svg>
       </div>
       <div class="slide-control next">
-        <svg viewBox="0 0 24 24">
-          <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
-        </svg>
+        
       </div>
 
       <!-- Slide Indicators -->
@@ -1082,7 +1068,6 @@
         <span class="indicator" data-slide="1"></span>
         <span class="indicator" data-slide="2"></span>
         <span class="indicator" data-slide="3"></span>
-        <span class="indicator" data-slide="4"></span>
       </div>
 
       <!-- Hero Content -->
