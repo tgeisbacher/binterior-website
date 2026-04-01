@@ -1,9 +1,14 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Binterior - Thoughtful Design, Beautiful Spaces</title>
+    <base href="/" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
     <style>
       * {
         margin: 0;
@@ -37,15 +42,14 @@
         position: fixed;
         width: 100%;
         padding: 20px 50px;
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
+        background: transparent;
         z-index: 1000;
         transition: all 0.3s ease;
+        mix-blend-mode: difference;
       }
 
       nav.scrolled {
         padding: 15px 50px;
-        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
       }
 
       .nav-container {
@@ -60,7 +64,7 @@
         font-size: 28px;
         font-weight: 300;
         letter-spacing: -1px;
-        color: var(--primary-color);
+        color: var(--light);
         cursor: pointer;
         transition: opacity 0.3s ease;
       }
@@ -77,7 +81,7 @@
 
       .nav-links a {
         text-decoration: none;
-        color: var(--dark);
+        color: var(--light);
         font-size: 14px;
         letter-spacing: 1px;
         text-transform: uppercase;
@@ -92,7 +96,7 @@
         left: 0;
         width: 0;
         height: 1px;
-        background: var(--primary-color);
+        background: var(--light);
         transition: width 0.3s ease;
       }
 
@@ -106,21 +110,21 @@
       }
 
       .dropdown {
-        position: absolute;
-        top: 100%;
+        position: fixed;
         left: 50%;
         transform: translateX(-50%);
+        top: 70px;
         background: rgba(255, 255, 255, 0.98);
         backdrop-filter: blur(10px);
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         border: 1px solid rgba(120, 125, 94, 0.1);
         padding: 20px 0;
-        margin-top: 20px;
         min-width: 250px;
         opacity: 0;
         visibility: hidden;
         transition: all 0.3s ease;
-        z-index: 1000;
+        z-index: 2000;
+        isolation: isolate;
       }
 
       .dropdown::before {
@@ -134,12 +138,12 @@
         border-left: 8px solid transparent;
         border-right: 8px solid transparent;
         border-bottom: 8px solid rgba(255, 255, 255, 0.98);
+        mix-blend-mode: normal;
       }
 
       .nav-item:hover .dropdown {
         opacity: 1;
         visibility: visible;
-        margin-top: 15px;
       }
 
       .dropdown-item {
@@ -187,151 +191,77 @@
       }
 
       .hero {
-        height: 100vh;
         position: relative;
+        width: 100%;
+        height: 100vh;
         display: flex;
         align-items: center;
         justify-content: center;
         overflow: hidden;
       }
 
-/* Slideshow Styles */
-      .slideshow-container {
+      /* Heading behind the slider */
+      .hero-heading {
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        z-index: 0;
-      }
-
-      .slide {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        opacity: 0;
-        transition: opacity 2s ease-in-out;
-      }
-
-      .slide.active {
-        opacity: 1;
-      }
-
-      .slide img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-
-      .slide-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-          135deg,
-          rgba(0, 0, 0, 0.4) 0%,
-          rgba(0, 0, 0, 0.2) 50%,
-          rgba(0, 0, 0, 0.4) 100%
-        );
-      }
-
-      /* Slide Indicators */
-      .slide-indicators {
-        position: absolute;
-        bottom: 40px;
-        left: 50%;
-        transform: translateX(-50%);
         display: flex;
-        gap: 15px;
-        z-index: 3;
-      }
-
-      .indicator {
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        border: 2px solid rgba(255, 255, 255, 0.7);
-        background: transparent;
-        cursor: pointer;
-        transition: all 0.3s ease;
-      }
-
-      .indicator.active {
-        background: var(--primary-color);
-        border-color: var(--primary-color);
-        transform: scale(1.2);
-      }
-
-      .indicator:hover {
-        background: rgba(255, 255, 255, 0.5);
-      }
-
-      /* Slide Controls */
-      .slide-control {
-        position: absolute;
-        top: 50%;
-        width: 50px;
-        height: 50px;
-        display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        z-index: 3;
-        color: var(--light);
-        font-size: 20px;
+        z-index: 1;
+        pointer-events: none;
+        padding-top: 45vh;
       }
 
-      .slide-control.prev {
-        left: 30px;
-      }
-
-      .slide-control.next {
-        right: 30px;
-      }
-
-      .slide-control svg {
-        width: 24px;
-        height: 24px;
-        fill: currentColor;
-      }
-
-      .hero-content {
-        text-align: center;
-        /* z-index: 2; */
-        position: relative;
-        padding: 40px;
-        /* background: rgba(255, 255, 255, 0.95); */
-        /* backdrop-filter: blur(10px); */
-        border-radius: 0;
-        /* box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2); */
-        /* max-width: 600px; */
-        animation: fadeInUp 1s ease;
-      }
-
-      .hero h1 {
-        font-size: clamp(150px, 15vw, 300px);
-        /* font-size: 250px; */
+      .hero-heading h1 {
+        font-size: clamp(100px, 20vw, 400px);
         font-weight: 800;
-        letter-spacing: -2px;
-        margin-bottom: 20px;
+        letter-spacing: -4px;
+        color: var(--dark);
+        margin: 0;
+        line-height: 0.85;
         opacity: 0;
-        animation: fadeInUp 0.8s ease 0.2s forwards;
-        color: white;
+        animation: fadeInUp 0.8s ease 0.3s forwards;
       }
 
       .hero .tagline {
-        font-size: 22px;
-        color: #c6c6c6;
-        font-weight: 500;
-        letter-spacing: 2px;
+        font-size: 16px;
+        color: var(--text-gray);
+        font-weight: 400;
+        letter-spacing: 3px;
         text-transform: uppercase;
+        margin-top: 20px;
         opacity: 0;
-        animation: fadeInUp 0.8s ease 0.4s forwards;
+        animation: fadeInUp 0.8s ease 0.5s forwards;
+      }
+
+      /* Swiper Hero Slider - on top of heading */
+      .hero-swiper {
+        position: relative;
+        width: 45%;
+        z-index: 2;
+        overflow: hidden;
+      }
+
+      .hero-swiper .swiper-wrapper {
+        position: relative;
+        aspect-ratio: 3 / 2;
+      }
+
+      .hero-swiper .swiper-slide {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+
+      .hero-swiper .swiper-slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
       }
 
       /* Color Transition Section */
@@ -339,7 +269,7 @@
         position: relative;
         height: 200vh;
         background: linear-gradient(
-          180deg, 
+          180deg,
           var(--gray) 0%,
           var(--transition-color-1) 25%,
           var(--transition-color-2) 50%,
@@ -416,7 +346,8 @@
       }
 
       @keyframes wave-animation {
-        0%, 100% {
+        0%,
+        100% {
           transform: translate(0, 0) scale(1);
           opacity: 0.5;
         }
@@ -459,9 +390,8 @@
 
       .about-image {
         position: relative;
-        /* height: 560px; */
+        height: 560px;
         width: 100%;
-        background: var(--primary-color);
         overflow: hidden;
         opacity: 0.9;
       }
@@ -477,6 +407,10 @@
         font-weight: 300;
         margin-bottom: 60px;
         color: var(--dark);
+      }
+
+      .portfolio .section-title {
+        color: var(--light);
       }
 
       .services-grid {
@@ -539,9 +473,37 @@
         line-height: 1.6;
       }
 
+      .circle-reveal-wrapper {
+        position: relative;
+        height: 280vh;
+        background: #f5f5f5;
+      }
+
+      .circle-reveal-sticky {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        width: 100%;
+        overflow: hidden;
+        background: #f5f5f5;
+      }
+
+      .circle-reveal-circle {
+        position: absolute;
+        border-radius: 50%;
+        background: #787d5e;
+        width: 0;
+        height: 0;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
       .portfolio {
-        padding: 120px 50px;
-        background: var(--light);
+        position: relative;
+        margin-top: -300px;
+        padding: 10px 50px;
+        background: var(--primary-color);
       }
 
       .portfolio-grid {
@@ -572,7 +534,8 @@
       }
 
       @keyframes highlightPulse {
-        0%, 100% {
+        0%,
+        100% {
           transform: scale(1);
           box-shadow: 0 0 30px rgba(120, 125, 94, 0);
         }
@@ -581,7 +544,6 @@
           box-shadow: 0 0 30px rgba(120, 125, 94, 0.4);
         }
       }
-
 
       .portfolio-overlay {
         position: absolute;
@@ -706,7 +668,7 @@
         position: absolute;
         width: 100%;
         height: 2px;
-        background: var(--primary-color);
+        background: var(--light);
         transition: all 0.3s ease;
         transform-origin: center;
       }
@@ -872,31 +834,12 @@
           height: 100vh;
         }
 
-        .hero-content {
-          padding: 30px 20px;
-          max-width: 90%;
+        .hero-swiper {
+          width: 70%;
         }
 
-        .slide-control {
-          width: 40px;
-          height: 40px;
-        }
-
-        .slide-control.prev {
-          left: 10px;
-        }
-
-        .slide-control.next {
-          right: 10px;
-        }
-
-        .slide-indicators {
-          bottom: 20px;
-        }
-
-        .indicator {
-          width: 10px;
-          height: 10px;
+        .hero-heading h1 {
+          letter-spacing: -2px;
         }
 
         .color-transition {
@@ -917,8 +860,8 @@
           grid-template-columns: 1fr;
         }
 
-        .hero h1 {
-          font-size: 100px;
+        .hero-heading h1 {
+          font-size: 80px;
         }
 
         .section-title {
@@ -926,28 +869,27 @@
         }
 
         .portfolio {
-        padding: 120px 5px;
-        background: var(--light);
-      }
-      .portfolio-item {
-        position: relative;
-        height: 365px;
-        background: var(--primary-color);
-        overflow: hidden;
-        cursor: pointer;
-        transition: all 0.3s ease;
-      }
-      .portfolio-img {
-        height: 100%;
-        width: 100%;
-        display: block;
-      }
-      .self-image {
-        max-width: 100%;
-        height: 100%;
-        display: block;
-        object-fit: contain;
-      }
+          padding: 120px 5px;
+          background: var(--primary-color);
+        }
+        .portfolio-item {
+          position: relative;
+          height: 365px;
+          background: var(--primary-color);
+          overflow: hidden;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+        .portfolio-img {
+          height: 100%;
+          width: 100%;
+          display: block;
+        }
+        .self-image {
+          max-width: 100%;
+          height: auto;
+          display: block;
+        }
       }
 
       /* Hide mobile menu button on desktop */
@@ -955,30 +897,30 @@
         display: none;
       }
 
-/* Desktop only styles */
+      /* Desktop only styles */
       @media (min-width: 769px) {
         .mobile-menu {
           display: none !important;
         }
-        
+
         .hamburger {
           display: none !important;
         }
-        
+
         .mobile-menu-overlay {
           display: none !important;
         }
         .portfolio-img {
-        height: 100%;
-        display: block;
-        object-fit: contain;
-      }
-       .self-image {
-        max-width: 100%;
-        height: 100%;
-        display: block;
-        object-fit: contain;
-      }
+          height: 100%;
+          display: block;
+          object-fit: contain;
+        }
+        .self-image {
+          max-width: 100%;
+          height: 100%;
+          display: block;
+          object-fit: contain;
+        }
       }
 
       .fade-in {
@@ -1007,24 +949,52 @@
           <li><a href="#about">About</a></li>
           <li><a href="#services">Services</a></li>
           <li class="nav-item">
-            <a href="#portfolio" class="has-dropdown">Portfolio <span style="font-size: 10px; margin-left: 4px;">▼</span></a>
+            <a href="#portfolio" class="has-dropdown"
+              >Portfolio
+              <span style="font-size: 10px; margin-left: 4px">▼</span></a
+            >
             <div class="dropdown">
               <div class="dropdown-label">Projekte</div>
-              <a href="./portfolio/appartement-art.html" class="dropdown-item" data-project="0">Appartement "Art"</a>
-              <a href="./portfolio/wintergarten.html" class="dropdown-item" data-project="1">Wintergarten</a>
-              <a href="./portfolio/airbnb-dachgeschoss.html" class="dropdown-item" data-project="2">Airbnb Wohnung Dachgeschoss</a>
-              <a href="./portfolio/heller-wohnbereich.html" class="dropdown-item" data-project="3">Heller Wohnbereich</a>
-              <a href="./portfolio/kuechen-wohnbereich.html" class="dropdown-item" data-project="4">Küchen- und Wohnbereich</a>
+              <a
+                href="/portfolio/appartement-art"
+                class="dropdown-item"
+                data-project="0"
+                >Appartement "Art"</a
+              >
+              <a
+                href="/portfolio/wintergarten"
+                class="dropdown-item"
+                data-project="1"
+                >Wintergarten</a
+              >
+              <a
+                href="/portfolio/airbnb-dachgeschoss"
+                class="dropdown-item"
+                data-project="2"
+                >Airbnb Wohnung Dachgeschoss</a
+              >
+              <a
+                href="/portfolio/heller-wohnbereich"
+                class="dropdown-item"
+                data-project="3"
+                >Heller Wohnbereich</a
+              >
+              <a
+                href="/portfolio/kuechen-wohnbereich"
+                class="dropdown-item"
+                data-project="4"
+                >Küchen- und Wohnbereich</a
+              >
             </div>
           </li>
           <li><a href="#contact">Kontakt</a></li>
         </ul>
-<!-- Hamburger Menu Button -->
+        <!-- Hamburger Menu Button -->
         <div class="hamburger" id="hamburger">
           <span></span>
           <span></span>
           <span></span>
-        </div>      
+        </div>
       </div>
     </nav>
 
@@ -1036,13 +1006,25 @@
           <li><a href="#about">About</a></li>
           <li><a href="#services">Services</a></li>
           <li class="mobile-dropdown">
-            <a href="#portfolio" class="mobile-dropdown-toggle">Portfolio <span>▼</span></a>
+            <a href="#portfolio" class="mobile-dropdown-toggle"
+              >Portfolio <span>▼</span></a
+            >
             <ul class="mobile-dropdown-menu">
-              <li><a href="./portfolio/appartement-art.html">Appartement "Art"</a></li>
-              <li><a href="./portfolio/wintergarten.html">Wintergarten</a></li>
-              <li><a href="./portfolio/airbnb-dachgeschoss.html">Airbnb Wohnung</a></li>
-              <li><a href="./portfolio/heller-wohnbereich.html">Heller Wohnbereich</a></li>
-              <li><a href="./portfolio/kuechen-wohnbereich.html">Küchen & Wohnbereich</a></li>
+              <li>
+                <a href="/portfolio/appartement-art">Appartement "Art"</a>
+              </li>
+              <li><a href="/portfolio/wintergarten">Wintergarten</a></li>
+              <li>
+                <a href="/portfolio/airbnb-dachgeschoss">Airbnb Wohnung</a>
+              </li>
+              <li>
+                <a href="/portfolio/heller-wohnbereich">Heller Wohnbereich</a>
+              </li>
+              <li>
+                <a href="/portfolio/kuechen-wohnbereich"
+                  >Küchen & Wohnbereich</a
+                >
+              </li>
             </ul>
           </li>
           <li><a href="#contact">Kontakt</a></li>
@@ -1051,45 +1033,34 @@
     </div>
 
     <section class="hero" id="home">
-     <!-- Image Slideshow -->
-      <div class="slideshow-container">
-        <div class="slide active">
-          <img src="./assets/IMG_4063.jpg" alt="Binterior Project 1">
-          <div class="slide-overlay"></div>
-        </div>
-        <div class="slide">
-          <img src="./assets/appartment-art/IMG_4077.jpg" alt="Binterior Project 2">
-          <div class="slide-overlay"></div>
-        </div>
-        <div class="slide">
-          <img src="./assets/airbnb-wohnung-dachgeschoss/IMG_5047.jpg" alt="Binterior Project 3">
-          <div class="slide-overlay"></div>
-        </div>
-        <div class="slide">
-          <img src="./assets/IMG_4070.jpg" alt="Binterior Project 4">
-          <div class="slide-overlay"></div>
-        </div>
-      </div>
-
-      <!-- Slide Controls -->
-      <div class="slide-control prev">
-      </div>
-      <div class="slide-control next">
-        
-      </div>
-
-      <!-- Slide Indicators -->
-      <div class="slide-indicators">
-        <span class="indicator active" data-slide="0"></span>
-        <span class="indicator" data-slide="1"></span>
-        <span class="indicator" data-slide="2"></span>
-        <span class="indicator" data-slide="3"></span>
-      </div>
-
-      <!-- Hero Content -->
-      <div class="hero-content">
+      <!-- Heading behind the slider -->
+      <div class="hero-heading">
         <h1>Binterior</h1>
-        <p class="tagline">Thoughtful Design • Beautiful Spaces</p>
+        <p class="tagline">Thoughtful Design &bull; Beautiful Spaces</p>
+      </div>
+
+      <!-- Swiper Image Slider on top -->
+      <div class="swiper hero-swiper">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <img src="./assets/IMG_4063.jpg" alt="Binterior Project 1" />
+          </div>
+          <div class="swiper-slide">
+            <img
+              src="./assets/appartment-art/IMG_4077.jpg"
+              alt="Binterior Project 2"
+            />
+          </div>
+          <div class="swiper-slide">
+            <img
+              src="./assets/airbnb-wohnung-dachgeschoss/IMG_5047.jpg"
+              alt="Binterior Project 3"
+            />
+          </div>
+          <div class="swiper-slide">
+            <img src="./assets/IMG_4070.jpg" alt="Binterior Project 4" />
+          </div>
+        </div>
       </div>
     </section>
 
@@ -1102,9 +1073,9 @@
       </div>
       <div class="transition-content">
         <h2 class="transition-text">Creating Spaces That Inspire</h2>
-        <div class="parallax-element" style="top: 20%; left: 10%;"></div>
-        <div class="parallax-element" style="top: 60%; right: 15%;"></div>
-        <div class="parallax-element" style="bottom: 30%; left: 20%;"></div>
+        <div class="parallax-element" style="top: 20%; left: 10%"></div>
+        <div class="parallax-element" style="top: 60%; right: 15%"></div>
+        <div class="parallax-element" style="bottom: 30%; left: 20%"></div>
       </div>
     </section>
 
@@ -1120,7 +1091,10 @@
             </p>
           </div>
           <div class="about-image">
-            <img class="self-image" src="./assets/portrait/portrait-about.jpg"></img>
+            <img
+              class="self-image"
+              src="./assets/portrait/portrait-about.jpg"
+            />
           </div>
         </div>
       </div>
@@ -1130,71 +1104,95 @@
       <!-- <h2 class="section-title fade-in">Our Services</h2> -->
       <div class="container">
         <div class="about-grid fade-in">
-           <div class="about-image">
-            <img class="self-image" src="./assets/portrait/portrait-services.jpg"></img>
-           </div>
+          <div class="about-image">
+            <img
+              class="self-image"
+              src="./assets/portrait/portrait-services.jpg"
+            />
+          </div>
           <div class="about-text">
             <h2>Services</h2>
             <p>
               Ob Neubau, Renovierung oder gezielte Raumoptimierung – ich
-              begleite Sie von der ersten Idee bis zur fertigen Umsetzung. Mit einem
-              klaren Blick für das Wesentliche, einem feinen Sinn für Details und dem Ziel,
-              Räume individuell auf Ihre Bedürfnisse abzustimmen
+              begleite Sie von der ersten Idee bis zur fertigen Umsetzung. Mit
+              einem klaren Blick für das Wesentliche, einem feinen Sinn für
+              Details und dem Ziel, Räume individuell auf Ihre Bedürfnisse
+              abzustimmen
             </p>
             <p>
               Jedes Projekt ist einzigartig. Deshalb stehen bei mir persönliche
               Beratung, Transparenz und eine enge Zusammenarbeit mit meinen
-              Kund:innen im Vordergrund. Ich höre zu, stelle die richtigen Fragen – und
-              entwickle daraus Räume, die inspirieren.
+              Kund:innen im Vordergrund. Ich höre zu, stelle die richtigen
+              Fragen – und entwickle daraus Räume, die inspirieren.
             </p>
           </div>
         </div>
       </div>
-      </div>
     </section>
+
+    <div class="circle-reveal-wrapper" id="wrapper">
+      <div class="circle-reveal-sticky">
+        <div class="circle-reveal-circle" id="circle"></div>
+      </div>
+    </div>
 
     <section class="portfolio" id="portfolio">
       <h2 class="section-title fade-in">Portfolio</h2>
       <div class="portfolio-grid">
         <a href="./portfolio/appartement-art.html" target="_self">
-        <div class="portfolio-item fade-in" id="project-art">
-          <img class="portfolio-img" src="./assets/portfolio/appartment-art-preview.jpg"></img>
-          <div class="portfolio-overlay">
-            <h3>Appartement "Art"</h3>
+          <div class="portfolio-item fade-in" id="project-art">
+            <img
+              class="portfolio-img"
+              src="./assets/portfolio/appartment-art-preview.jpg"
+            />
+            <div class="portfolio-overlay">
+              <h3>Appartement "Art"</h3>
+            </div>
           </div>
-        </div>
         </a>
         <a href="./portfolio/wintergarten.html" target="_self">
-        <div class="portfolio-item fade-in" id="project-winter">
-          <img class="portfolio-img" src="./assets/portfolio/wintergarten-preview.jpg"></img>
-          <div class="portfolio-overlay">
-            <h3>Wintergarten</h3>
+          <div class="portfolio-item fade-in" id="project-winter">
+            <img
+              class="portfolio-img"
+              src="./assets/portfolio/wintergarten-preview.jpg"
+            />
+            <div class="portfolio-overlay">
+              <h3>Wintergarten</h3>
+            </div>
           </div>
-        </div>
         </a>
-         <a href="./portfolio/airbnb-dachgeschoss.html" target="_self">
-        <div class="portfolio-item fade-in" id="project-airbnb">
-          <img class="portfolio-img" src="./assets/portfolio/airbnb-dachgeschoss-preview.jpg"></img>
-          <div class="portfolio-overlay">
-            <h3>Airbnb Wohnung Dachgeschoss</h3>
+        <a href="./portfolio/airbnb-dachgeschoss.html" target="_self">
+          <div class="portfolio-item fade-in" id="project-airbnb">
+            <img
+              class="portfolio-img"
+              src="./assets/portfolio/airbnb-dachgeschoss-preview.jpg"
+            />
+            <div class="portfolio-overlay">
+              <h3>Airbnb Wohnung Dachgeschoss</h3>
+            </div>
           </div>
-        </div>
         </a>
-         <a href="./portfolio/heller-wohnbereich.html" target="_self">
-        <div class="portfolio-item fade-in" id="project-wohn">
-          <img class="portfolio-img" src="./assets/portfolio/heller-wohnbereich-preview.jpg"></img>
-          <div class="portfolio-overlay">
-            <h3>heller Wohnbereich</h3>
+        <a href="./portfolio/heller-wohnbereich.html" target="_self">
+          <div class="portfolio-item fade-in" id="project-wohn">
+            <img
+              class="portfolio-img"
+              src="./assets/portfolio/heller-wohnbereich-preview.jpg"
+            />
+            <div class="portfolio-overlay">
+              <h3>heller Wohnbereich</h3>
+            </div>
           </div>
-        </div>
         </a>
         <a href="./portfolio/kuechen-wohnbereich.html" target="_self">
-        <div class="portfolio-item fade-in" id="project-kitchen">
-          <img class="portfolio-img" src="./assets/portfolio/kueche-wohnbereich-preview.jpg"></img>
-          <div class="portfolio-overlay">
-            <h3>Küchen- und Wohnbereich</h3>
+          <div class="portfolio-item fade-in" id="project-kitchen">
+            <img
+              class="portfolio-img"
+              src="./assets/portfolio/kueche-wohnbereich-preview.jpg"
+            />
+            <div class="portfolio-overlay">
+              <h3>Küchen- und Wohnbereich</h3>
+            </div>
           </div>
-        </div>
         </a>
       </div>
     </section>
@@ -1210,184 +1208,202 @@
     </section>
 
     <footer>
-      <div class="footer-content" style="max-width: 1200px; margin: 0 auto;">
-        <div class="footer-links" style="display: flex; justify-content: center; gap: 30px; margin-bottom: 20px;">
-          <a href="#home" style="color: white; text-decoration: none; font-size: 14px; transition: opacity 0.3s ease;">Home</a>
-          <a href="impressum.html" style="color: white; text-decoration: none; font-size: 14px; transition: opacity 0.3s ease;">Impressum</a>
-          <a href="mailto:hello@binterior.com" style="color: white; text-decoration: none; font-size: 14px; transition: opacity 0.3s ease;">Kontakt</a>
+      <div class="footer-content" style="max-width: 1200px; margin: 0 auto">
+        <div
+          class="footer-links"
+          style="
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+          "
+        >
+          <a
+            href="#home"
+            style="
+              color: white;
+              text-decoration: none;
+              font-size: 14px;
+              transition: opacity 0.3s ease;
+            "
+            >Home</a
+          >
+          <a
+            href="impressum.html"
+            style="
+              color: white;
+              text-decoration: none;
+              font-size: 14px;
+              transition: opacity 0.3s ease;
+            "
+            >Impressum</a
+          >
+          <a
+            href="mailto:hello@binterior.com"
+            style="
+              color: white;
+              text-decoration: none;
+              font-size: 14px;
+              transition: opacity 0.3s ease;
+            "
+            >Kontakt</a
+          >
         </div>
-        <div style="width: 40px; height: 1px; background: #787d5e; margin: 20px auto;"></div>
-        <p>&copy; 2025 Binterior. All rights reserved. | Design with passion.</p>
+        <div
+          style="
+            width: 40px;
+            height: 1px;
+            background: #787d5e;
+            margin: 20px auto;
+          "
+        ></div>
+        <p>
+          &copy; 2025 Binterior. All rights reserved. | Design with passion.
+        </p>
       </div>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
-      // Slideshow functionality
+      const wrapper = document.getElementById("wrapper");
+      const circle = document.getElementById("circle");
+
+      function update() {
+        const wrapperTop = wrapper.getBoundingClientRect().top + window.scrollY;
+        const wrapperHeight = wrapper.offsetHeight;
+        const viewportH = window.innerHeight;
+        const scrollY = window.scrollY;
+
+        const scrolled = scrollY - wrapperTop;
+        const scrollable = wrapperHeight - viewportH;
+        const progress = Math.max(0, Math.min(1, scrolled / scrollable));
+
+        const maxSize =
+          Math.sqrt(
+            viewportH * viewportH + window.innerWidth * window.innerWidth,
+          ) * 2;
+        const size = progress * maxSize;
+
+        circle.style.width = size + "px";
+        circle.style.height = size + "px";
+      }
+
+      window.addEventListener("scroll", update, { passive: true });
+      update();
+      // Swiper initialization
+      // Custom slider: fade out → pause (show heading) → next image pops in
+      const slides = document.querySelectorAll(".hero-swiper .swiper-slide");
       let currentSlide = 0;
-      const slides = document.querySelectorAll('.slide');
-      const indicators = document.querySelectorAll('.indicator');
-      const totalSlides = slides.length;
-      let slideInterval;
+      let slideTimer;
 
       function showSlide(index) {
-        // Remove active class from all slides and indicators
-        slides.forEach(slide => slide.classList.remove('active'));
-        indicators.forEach(indicator => indicator.classList.remove('active'));
-        
-        // Add active class to current slide and indicator
-        slides[index].classList.add('active');
-        indicators[index].classList.add('active');
-        
-        currentSlide = index;
+        slides[index].style.opacity = "1";
+        slides[index].style.transform = "translateX(0)";
+        slides[index].style.transition = "opacity 0.25s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)";
       }
 
-      function nextSlide() {
-        const next = (currentSlide + 1) % totalSlides;
-        showSlide(next);
-      }
-
-      function prevSlide() {
-        const prev = (currentSlide - 1 + totalSlides) % totalSlides;
-        showSlide(prev);
-      }
-
-      function startSlideshow() {
-        slideInterval = setInterval(nextSlide, 5000); // Change slide every 5 seconds
-      }
-
-      function stopSlideshow() {
-        clearInterval(slideInterval);
-      }
-
-      // Event listeners for controls
-      document.querySelector('.slide-control.next').addEventListener('click', () => {
-        stopSlideshow();
-        nextSlide();
-        startSlideshow();
-      });
-
-      document.querySelector('.slide-control.prev').addEventListener('click', () => {
-        stopSlideshow();
-        prevSlide();
-        startSlideshow();
-      });
-
-      // Event listeners for indicators
-      indicators.forEach((indicator, index) => {
-        indicator.addEventListener('click', () => {
-          stopSlideshow();
-          showSlide(index);
-          startSlideshow();
+      function hideSlide(index) {
+        return new Promise((resolve) => {
+          const dir = index % 2 === 0 ? "-100%" : "100%";
+          slides[index].style.transition = "opacity 0.3s ease, transform 0.35s ease";
+          slides[index].style.opacity = "0";
+          slides[index].style.transform = "translateX(" + dir + ")";
+          setTimeout(resolve, 350);
         });
-      });
-
-      // Keyboard navigation
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowLeft') {
-          stopSlideshow();
-          prevSlide();
-          startSlideshow();
-        } else if (e.key === 'ArrowRight') {
-          stopSlideshow();
-          nextSlide();
-          startSlideshow();
-        }
-      });
-
-      // Touch/swipe support for mobile
-      let touchStartX = 0;
-      let touchEndX = 0;
-      
-      const heroSection = document.querySelector('.hero');
-      
-      heroSection.addEventListener('touchstart', (e) => {
-        touchStartX = e.changedTouches[0].screenX;
-      });
-      
-      heroSection.addEventListener('touchend', (e) => {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
-      });
-      
-      function handleSwipe() {
-        if (touchEndX < touchStartX - 50) {
-          // Swiped left
-          stopSlideshow();
-          nextSlide();
-          startSlideshow();
-        }
-        if (touchEndX > touchStartX + 50) {
-          // Swiped right
-          stopSlideshow();
-          prevSlide();
-          startSlideshow();
-        }
       }
 
-      // Pause slideshow on hover
-      heroSection.addEventListener('mouseenter', stopSlideshow);
-      heroSection.addEventListener('mouseleave', startSlideshow);
+      async function nextSlide() {
+        await hideSlide(currentSlide);
+        // Brief pause — heading is visible
+        await new Promise((r) => setTimeout(r, 400));
+        const nextIndex = (currentSlide + 1) % slides.length;
+        currentSlide = nextIndex;
+        // Position next slide off-screen from alternating side
+        const enterDir = currentSlide % 2 === 0 ? "-100%" : "100%";
+        slides[currentSlide].style.transition = "none";
+        slides[currentSlide].style.transform = "translateX(" + enterDir + ")";
+        slides[currentSlide].style.opacity = "0";
+        // Force reflow
+        slides[currentSlide].offsetHeight;
+        showSlide(currentSlide);
+        // Schedule next — last slide stays longer
+        const isLast = currentSlide === slides.length - 1;
+        clearTimeout(slideTimer);
+        slideTimer = setTimeout(nextSlide, isLast ? 6000 : 3000);
+      }
 
-      // Start the slideshow
-      startSlideshow();
+      // Init: stack all slides, show first
+      slides.forEach((slide, i) => {
+        slide.style.position = "absolute";
+        slide.style.inset = "0";
+        slide.style.opacity = i === 0 ? "1" : "0";
+        slide.style.transform = "scale(1)";
+      });
+      const swiperWrapper = document.querySelector(".hero-swiper .swiper-wrapper");
+      swiperWrapper.style.position = "relative";
+
+      // Start — first slide shows for 3s
+      slideTimer = setTimeout(nextSlide, 3000);
 
       // Hamburger Menu Functionality
-      const hamburger = document.getElementById('hamburger');
-      const mobileMenu = document.getElementById('mobileMenu');
-      const mobileDropdown = document.querySelector('.mobile-dropdown');
-      const mobileLinks = document.querySelectorAll('.mobile-nav-links a');
+      const hamburger = document.getElementById("hamburger");
+      const mobileMenu = document.getElementById("mobileMenu");
+      const mobileDropdown = document.querySelector(".mobile-dropdown");
+      const mobileLinks = document.querySelectorAll(".mobile-nav-links a");
       let menuOverlay;
 
       // Create overlay element
-      menuOverlay = document.createElement('div');
-      menuOverlay.className = 'mobile-menu-overlay';
+      menuOverlay = document.createElement("div");
+      menuOverlay.className = "mobile-menu-overlay";
       document.body.appendChild(menuOverlay);
 
       // Toggle mobile menu
       function toggleMobileMenu() {
-        hamburger.classList.toggle('active');
-        mobileMenu.classList.toggle('active');
-        menuOverlay.classList.toggle('active');
-        document.body.classList.toggle('menu-open');
+        hamburger.classList.toggle("active");
+        mobileMenu.classList.toggle("active");
+        menuOverlay.classList.toggle("active");
+        document.body.classList.toggle("menu-open");
       }
 
       // Close mobile menu
       function closeMobileMenu() {
-        hamburger.classList.remove('active');
-        mobileMenu.classList.remove('active');
-        menuOverlay.classList.remove('active');
-        document.body.classList.remove('menu-open');
+        hamburger.classList.remove("active");
+        mobileMenu.classList.remove("active");
+        menuOverlay.classList.remove("active");
+        document.body.classList.remove("menu-open");
       }
 
       // Hamburger click event
-      hamburger.addEventListener('click', toggleMobileMenu);
+      hamburger.addEventListener("click", toggleMobileMenu);
 
       // Overlay click event
-      menuOverlay.addEventListener('click', closeMobileMenu);
+      menuOverlay.addEventListener("click", closeMobileMenu);
 
       // Mobile dropdown toggle
-      const mobileDropdownToggle = document.querySelector('.mobile-dropdown-toggle');
+      const mobileDropdownToggle = document.querySelector(
+        ".mobile-dropdown-toggle",
+      );
       if (mobileDropdownToggle) {
-        mobileDropdownToggle.addEventListener('click', (e) => {
+        mobileDropdownToggle.addEventListener("click", (e) => {
           e.preventDefault();
-          mobileDropdown.classList.toggle('active');
+          mobileDropdown.classList.toggle("active");
         });
       }
 
       // Close menu when clicking on links (except dropdown toggle)
-      mobileLinks.forEach(link => {
-        if (!link.classList.contains('mobile-dropdown-toggle')) {
-          link.addEventListener('click', () => {
+      mobileLinks.forEach((link) => {
+        if (!link.classList.contains("mobile-dropdown-toggle")) {
+          link.addEventListener("click", () => {
             closeMobileMenu();
             // If it's an anchor link, smooth scroll
-            const href = link.getAttribute('href');
-            if (href && href.startsWith('#')) {
+            const href = link.getAttribute("href");
+            if (href && href.startsWith("#")) {
               e.preventDefault();
               const target = document.querySelector(href);
               if (target) {
                 target.scrollIntoView({
-                  behavior: 'smooth',
-                  block: 'start'
+                  behavior: "smooth",
+                  block: "start",
                 });
               }
             }
@@ -1396,12 +1412,12 @@
       });
 
       // Close menu on escape key
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && mobileMenu.classList.contains("active")) {
           closeMobileMenu();
         }
       });
-      
+
       // Navbar scroll effect
       window.addEventListener("scroll", function () {
         const navbar = document.getElementById("navbar");
@@ -1426,7 +1442,7 @@
                 dropdown.style.opacity = "0";
                 dropdown.style.visibility = "hidden";
               }
-              
+
               // Scroll to portfolio section first, then to specific item
               const portfolioSection = document.getElementById("portfolio");
               if (portfolioSection) {
@@ -1434,14 +1450,14 @@
                   behavior: "smooth",
                   block: "start",
                 });
-                
+
                 // After scrolling to section, highlight the specific item
                 setTimeout(() => {
                   target.scrollIntoView({
                     behavior: "smooth",
                     block: "center",
                   });
-                  
+
                   // Add highlight effect
                   target.classList.add("highlight");
                   setTimeout(() => {
@@ -1461,22 +1477,31 @@
       });
 
       // Dropdown menu handling
-      const portfolioDropdown = document.querySelector('.nav-item');
+      const portfolioDropdown = document.querySelector(".nav-item");
       let dropdownTimeout;
 
       if (portfolioDropdown) {
-        const dropdown = portfolioDropdown.querySelector('.dropdown');
-        
-        portfolioDropdown.addEventListener('mouseenter', () => {
+        const dropdown = portfolioDropdown.querySelector(".dropdown");
+        const navbar = document.getElementById("navbar");
+
+        portfolioDropdown.addEventListener("mouseenter", () => {
           clearTimeout(dropdownTimeout);
-          dropdown.style.opacity = '1';
-          dropdown.style.visibility = 'visible';
+          navbar.style.mixBlendMode = "normal";
+          navbar.style.background = "rgba(255, 255, 255, 0.95)";
+          navbar.querySelectorAll(".nav-links a").forEach((a) => (a.style.color = "var(--dark)"));
+          document.querySelector(".logo").style.color = "var(--primary-color)";
+          dropdown.style.opacity = "1";
+          dropdown.style.visibility = "visible";
         });
 
-        portfolioDropdown.addEventListener('mouseleave', () => {
+        portfolioDropdown.addEventListener("mouseleave", () => {
           dropdownTimeout = setTimeout(() => {
-            dropdown.style.opacity = '0';
-            dropdown.style.visibility = 'hidden';
+            dropdown.style.opacity = "0";
+            dropdown.style.visibility = "hidden";
+            navbar.style.mixBlendMode = "difference";
+            navbar.style.background = "transparent";
+            navbar.querySelectorAll(".nav-links a").forEach((a) => (a.style.color = ""));
+            document.querySelector(".logo").style.color = "";
           }, 300);
         });
       }
@@ -1510,7 +1535,7 @@
         },
         {
           threshold: 0.5,
-        }
+        },
       );
 
       const transitionText = document.querySelector(".transition-text");
@@ -1522,9 +1547,9 @@
       window.addEventListener("scroll", () => {
         const scrolled = window.pageYOffset;
         const parallaxElements = document.querySelectorAll(".parallax-element");
-        
+
         parallaxElements.forEach((element, index) => {
-          const speed = 0.5 + (index * 0.2);
+          const speed = 0.5 + index * 0.2;
           const yPos = -(scrolled * speed);
           element.style.transform = `translateY(${yPos}px)`;
         });
@@ -1535,10 +1560,13 @@
         if (transitionSection) {
           const rect = transitionSection.getBoundingClientRect();
           const sectionHeight = transitionSection.offsetHeight;
-          const scrollProgress = Math.max(0, Math.min(1, -rect.top / sectionHeight));
-          
+          const scrollProgress = Math.max(
+            0,
+            Math.min(1, -rect.top / sectionHeight),
+          );
+
           colorWaves.forEach((wave, index) => {
-            const opacity = 0.1 + (scrollProgress * 0.4) * (1 - index * 0.2);
+            const opacity = 0.1 + scrollProgress * 0.4 * (1 - index * 0.2);
             wave.style.opacity = opacity;
           });
         }
