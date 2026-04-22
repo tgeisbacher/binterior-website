@@ -5,948 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Binterior - Thoughtful Design, Beautiful Spaces</title>
     <base href="/" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
-    />
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      :root {
-        --primary-color: #787d5e;
-        --dark: #2c2c2c;
-        --light: #ffffff;
-        --gray: #f5f5f5;
-        --text-gray: #666;
-        --transition-color-1: #e8e6e1;
-        --transition-color-2: #d4d1c9;
-        --transition-color-3: #b8b5ad;
-      }
-
-      html {
-        scroll-behavior: smooth;
-      }
-
-      body {
-        font-family: "Helvetica Neue", Arial, sans-serif;
-        line-height: 1.6;
-        color: var(--dark);
-        overflow-x: hidden;
-      }
-
-      nav {
-        position: fixed;
-        width: 100%;
-        padding: 20px 50px;
-        background: transparent;
-        z-index: 1000;
-        transition: all 0.3s ease;
-        mix-blend-mode: difference;
-      }
-
-      nav.scrolled {
-        padding: 15px 50px;
-      }
-
-      .nav-container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        max-width: 1400px;
-        margin: 0 auto;
-      }
-
-      .logo {
-        font-size: 28px;
-        font-weight: 300;
-        letter-spacing: -1px;
-        color: var(--light);
-        cursor: pointer;
-        transition: opacity 0.3s ease;
-      }
-
-      .logo:hover {
-        opacity: 0.8;
-      }
-
-      .nav-links {
-        display: flex;
-        gap: 40px;
-        list-style: none;
-      }
-
-      .nav-links a {
-        text-decoration: none;
-        color: var(--light);
-        font-size: 14px;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        transition: color 0.3s ease;
-        position: relative;
-      }
-
-      .nav-links a::after {
-        content: "";
-        position: absolute;
-        bottom: -5px;
-        left: 0;
-        width: 0;
-        height: 1px;
-        background: var(--light);
-        transition: width 0.3s ease;
-      }
-
-      .nav-links a:hover::after {
-        width: 100%;
-      }
-
-      /* Dropdown Menu Styles */
-      .nav-item {
-        position: relative;
-      }
-
-      .dropdown {
-        position: fixed;
-        left: 50%;
-        transform: translateX(-50%);
-        top: 70px;
-        background: rgba(255, 255, 255, 0.98);
-        backdrop-filter: blur(10px);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        border: 1px solid rgba(120, 125, 94, 0.1);
-        padding: 20px 0;
-        min-width: 250px;
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.3s ease;
-        z-index: 2000;
-        isolation: isolate;
-      }
-
-      .dropdown::before {
-        content: "";
-        position: absolute;
-        top: -8px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 0;
-        height: 0;
-        border-left: 8px solid transparent;
-        border-right: 8px solid transparent;
-        border-bottom: 8px solid rgba(255, 255, 255, 0.98);
-        mix-blend-mode: normal;
-      }
-
-      .nav-item:hover .dropdown {
-        opacity: 1;
-        visibility: visible;
-      }
-
-      .dropdown-item {
-        display: block;
-        padding: 12px 30px;
-        color: var(--dark);
-        text-decoration: none;
-        font-size: 13px;
-        letter-spacing: 0.5px;
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .dropdown-item::before {
-        content: "";
-        position: absolute;
-        left: 0;
-        top: 0;
-        height: 100%;
-        width: 3px;
-        background: var(--primary-color);
-        transform: translateX(-100%);
-        transition: transform 0.3s ease;
-      }
-
-      .dropdown-item:hover {
-        background: rgba(120, 125, 94, 0.05);
-        padding-left: 35px;
-      }
-
-      .dropdown-item:hover::before {
-        transform: translateX(0);
-      }
-
-      .dropdown-label {
-        padding: 8px 30px;
-        font-size: 11px;
-        color: var(--primary-color);
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        border-bottom: 1px solid rgba(120, 125, 94, 0.1);
-        margin-bottom: 10px;
-        font-weight: 500;
-      }
-
-      .hero {
-        position: relative;
-        width: 100%;
-        height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
-      }
-
-      /* Heading behind the slider */
-      .hero-heading {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        z-index: 1;
-        pointer-events: none;
-        padding-top: 45vh;
-      }
-
-      .hero-heading h1 {
-        font-size: clamp(100px, 20vw, 400px);
-        font-weight: 800;
-        letter-spacing: -4px;
-        color: var(--dark);
-        margin: 0;
-        line-height: 0.85;
-        opacity: 0;
-        animation: fadeInUp 0.8s ease 0.3s forwards;
-      }
-
-      .hero .tagline {
-        font-size: 16px;
-        color: var(--text-gray);
-        font-weight: 400;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        margin-top: 20px;
-        opacity: 0;
-        animation: fadeInUp 0.8s ease 0.5s forwards;
-      }
-
-      /* Swiper Hero Slider - on top of heading */
-      .hero-swiper {
-        position: relative;
-        width: 45%;
-        z-index: 2;
-        overflow: hidden;
-      }
-
-      .hero-swiper .swiper-wrapper {
-        position: relative;
-        aspect-ratio: 3 / 2;
-      }
-
-      .hero-swiper .swiper-slide {
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-      }
-
-      .hero-swiper .swiper-slide img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-      }
-
-      /* Color Transition Section */
-      .color-transition {
-        position: relative;
-        height: 200vh;
-        background: linear-gradient(
-          180deg,
-          var(--gray) 0%,
-          var(--transition-color-1) 25%,
-          var(--transition-color-2) 50%,
-          var(--transition-color-3) 75%,
-          var(--light) 100%
-        );
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .transition-content {
-        position: sticky;
-        top: 50vh;
-        transform: translateY(-50%);
-        text-align: center;
-        width: 100%;
-        padding: 0 50px;
-      }
-
-      .transition-text {
-        font-size: clamp(30px, 5vw, 60px);
-        font-weight: 200;
-        color: var(--primary-color);
-        opacity: 0;
-        transform: translateY(30px);
-        transition: all 0.8s ease;
-      }
-
-      .transition-text.visible {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      /* Animated gradient background */
-      .color-waves {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        overflow: hidden;
-        z-index: 0;
-      }
-
-      .color-wave {
-        position: absolute;
-        width: 200%;
-        height: 200%;
-        background: radial-gradient(
-          circle at center,
-          rgba(120, 125, 94, 0.1) 0%,
-          transparent 70%
-        );
-        animation: wave-animation 15s infinite ease-in-out;
-      }
-
-      .color-wave:nth-child(1) {
-        animation-delay: 0s;
-        left: -50%;
-        top: -50%;
-      }
-
-      .color-wave:nth-child(2) {
-        animation-delay: 5s;
-        right: -50%;
-        bottom: -50%;
-      }
-
-      .color-wave:nth-child(3) {
-        animation-delay: 10s;
-        left: -25%;
-        bottom: -25%;
-      }
-
-      @keyframes wave-animation {
-        0%,
-        100% {
-          transform: translate(0, 0) scale(1);
-          opacity: 0.5;
-        }
-        50% {
-          transform: translate(50px, -50px) scale(1.2);
-          opacity: 0.8;
-        }
-      }
-
-      .about {
-        padding: 120px 50px;
-        background: var(--light);
-      }
-
-      .container {
-        max-width: 1200px;
-        margin: 0 auto;
-      }
-
-      .about-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 80px;
-        align-items: center;
-      }
-
-      .about-text h2 {
-        font-size: clamp(80px, 5vw, 150px);
-        font-weight: 500;
-        margin-bottom: 30px;
-        color: var(--primary-color);
-      }
-
-      .about-text p {
-        font-size: 16px;
-        line-height: 1.8;
-        color: var(--text-gray);
-        margin-bottom: 20px;
-      }
-
-      .about-image {
-        position: relative;
-        height: 560px;
-        width: 100%;
-        overflow: hidden;
-        opacity: 0.9;
-      }
-
-      .services {
-        padding: 120px 50px;
-        background: var(--gray);
-      }
-
-      .section-title {
-        text-align: center;
-        font-size: 40px;
-        font-weight: 300;
-        margin-bottom: 60px;
-        color: var(--dark);
-      }
-
-      .portfolio .section-title {
-        color: var(--light);
-      }
-
-      .services-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 40px;
-        max-width: 1200px;
-        margin: 0 auto;
-      }
-
-      .service-card {
-        background: var(--light);
-        padding: 50px 40px;
-        text-align: center;
-        transition: all 0.3s ease;
-        cursor: pointer;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .service-card::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 2px;
-        background: var(--primary-color);
-        transform: translateX(-100%);
-        transition: transform 0.3s ease;
-      }
-
-      .service-card:hover::before {
-        transform: translateX(0);
-      }
-
-      .service-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-      }
-
-      .service-number {
-        font-size: 48px;
-        font-weight: 100;
-        color: var(--primary-color);
-        opacity: 0.3;
-        margin-bottom: 20px;
-      }
-
-      .service-card h3 {
-        font-size: 24px;
-        font-weight: 400;
-        margin-bottom: 15px;
-        letter-spacing: -0.5px;
-      }
-
-      .service-card p {
-        font-size: 14px;
-        color: var(--text-gray);
-        line-height: 1.6;
-      }
-
-      .circle-reveal-wrapper {
-        position: relative;
-        height: 280vh;
-        background: #f5f5f5;
-      }
-
-      .circle-reveal-sticky {
-        position: sticky;
-        top: 0;
-        height: 100vh;
-        width: 100%;
-        overflow: hidden;
-        background: #f5f5f5;
-      }
-
-      .circle-reveal-circle {
-        position: absolute;
-        border-radius: 50%;
-        background: #787d5e;
-        width: 0;
-        height: 0;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-      }
-
-      .portfolio {
-        position: relative;
-        margin-top: -300px;
-        padding: 10px 50px;
-        background: var(--primary-color);
-      }
-
-      .portfolio-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-        gap: 30px;
-        max-width: 1200px;
-        margin: 0 auto;
-      }
-
-      .portfolio-item {
-        position: relative;
-        height: 400px;
-        background: var(--primary-color);
-        overflow: hidden;
-        cursor: pointer;
-        transition: all 0.3s ease;
-      }
-
-      .portfolio-item:hover {
-        transform: scale(0.98);
-      }
-
-      /* Highlight effect for dropdown navigation */
-      .portfolio-item.highlight {
-        animation: highlightPulse 2s ease;
-        box-shadow: 0 0 30px rgba(120, 125, 94, 0.3);
-      }
-
-      @keyframes highlightPulse {
-        0%,
-        100% {
-          transform: scale(1);
-          box-shadow: 0 0 30px rgba(120, 125, 94, 0);
-        }
-        50% {
-          transform: scale(1.02);
-          box-shadow: 0 0 30px rgba(120, 125, 94, 0.4);
-        }
-      }
-
-      .portfolio-overlay {
-        position: absolute;
-        inset: 0;
-        background: rgba(120, 125, 94, 0.9);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-      }
-
-      .portfolio-item:hover .portfolio-overlay {
-        opacity: 1;
-      }
-
-      .portfolio-overlay h3 {
-        color: var(--light);
-        font-size: 24px;
-        font-weight: 300;
-        margin-bottom: 10px;
-        transform: translateY(20px);
-        transition: transform 0.3s ease;
-      }
-
-      .portfolio-item:hover .portfolio-overlay h3,
-      .portfolio-item:hover .portfolio-overlay p {
-        transform: translateY(0);
-      }
-
-      .contact {
-        padding: 120px 50px;
-        background: var(--primary-color);
-        color: var(--light);
-        text-align: center;
-      }
-
-      .contact h2 {
-        font-size: 40px;
-        font-weight: 300;
-        margin-bottom: 30px;
-      }
-
-      .contact-info {
-        font-size: 18px;
-        margin-bottom: 40px;
-        opacity: 0.9;
-      }
-
-      .contact-btn {
-        display: inline-block;
-        padding: 15px 50px;
-        background: var(--light);
-        color: var(--primary-color);
-        text-decoration: none;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        font-size: 14px;
-        transition: all 0.3s ease;
-        border: 1px solid var(--light);
-      }
-
-      .contact-btn:hover {
-        background: transparent;
-        color: var(--light);
-      }
-
-      footer {
-        padding: 30px;
-        background: var(--dark);
-        color: var(--light);
-        text-align: center;
-        font-size: 14px;
-      }
-
-      @keyframes fadeInUp {
-        from {
-          opacity: 0;
-          transform: translateY(30px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      @keyframes slideIn {
-        from {
-          opacity: 0;
-          transform: translateX(100%);
-        }
-        to {
-          opacity: 1;
-          transform: translateX(0);
-        }
-      }
-
-      /* Parallax scroll effect for transition section */
-      .parallax-element {
-        position: absolute;
-        width: 100px;
-        height: 100px;
-        background: var(--primary-color);
-        opacity: 0.05;
-        border-radius: 50%;
-        will-change: transform;
-      }
-
-      /* Hamburger Menu Styles */
-      .hamburger {
-        display: none;
-        width: 30px;
-        height: 24px;
-        position: relative;
-        cursor: pointer;
-        z-index: 1002;
-        transition: all 0.3s ease;
-      }
-
-      .hamburger span {
-        position: absolute;
-        width: 100%;
-        height: 2px;
-        background: var(--light);
-        transition: all 0.3s ease;
-        transform-origin: center;
-      }
-
-      .hamburger span:nth-child(1) {
-        top: 0;
-      }
-
-      .hamburger span:nth-child(2) {
-        top: 11px;
-      }
-
-      .hamburger span:nth-child(3) {
-        bottom: 0;
-      }
-
-      .hamburger.active span:nth-child(1) {
-        transform: translateY(11px) rotate(45deg);
-      }
-
-      .hamburger.active span:nth-child(2) {
-        opacity: 0;
-        transform: scaleX(0);
-      }
-
-      .hamburger.active span:nth-child(3) {
-        transform: translateY(-11px) rotate(-45deg);
-      }
-
-      /* Mobile Menu Overlay */
-      .mobile-menu {
-        position: fixed;
-        top: 0;
-        right: -100%;
-        width: 80%;
-        max-width: 400px;
-        height: 100vh;
-        background: var(--light);
-        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
-        transition: right 0.3s ease;
-        z-index: 1001;
-        overflow-y: auto;
-      }
-
-      .mobile-menu.active {
-        right: 0;
-      }
-
-      .mobile-menu-content {
-        padding: 80px 30px 30px;
-      }
-
-      .mobile-nav-links {
-        list-style: none;
-        padding: 0;
-      }
-
-      .mobile-nav-links li {
-        margin-bottom: 10px;
-      }
-
-      .mobile-nav-links a {
-        display: block;
-        padding: 15px 20px;
-        color: var(--dark);
-        text-decoration: none;
-        font-size: 16px;
-        font-weight: 300;
-        letter-spacing: 1px;
-        transition: all 0.3s ease;
-        border-left: 3px solid transparent;
-      }
-
-      .mobile-nav-links a:hover,
-      .mobile-nav-links a:active {
-        background: var(--gray);
-        border-left-color: var(--primary-color);
-        padding-left: 30px;
-      }
-
-      /* Mobile Dropdown */
-      .mobile-dropdown {
-        position: relative;
-      }
-
-      .mobile-dropdown-toggle {
-        position: relative;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .mobile-dropdown-toggle span {
-        font-size: 12px;
-        transition: transform 0.3s ease;
-      }
-
-      .mobile-dropdown.active .mobile-dropdown-toggle span {
-        transform: rotate(180deg);
-      }
-
-      .mobile-dropdown-menu {
-        display: none;
-        list-style: none;
-        padding: 0;
-        background: var(--gray);
-        margin: 5px 0 10px 0;
-      }
-
-      .mobile-dropdown.active .mobile-dropdown-menu {
-        display: block;
-      }
-
-      .mobile-dropdown-menu a {
-        padding: 12px 20px 12px 40px;
-        font-size: 14px;
-        border-left: 3px solid transparent;
-      }
-
-      .mobile-dropdown-menu a:hover {
-        background: rgba(120, 125, 94, 0.1);
-        border-left-color: var(--primary-color);
-      }
-
-      /* Dark overlay when menu is open */
-      .mobile-menu-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.3s ease;
-        z-index: 1000;
-      }
-
-      .mobile-menu-overlay.active {
-        opacity: 1;
-        visibility: visible;
-      }
-
-      /* Prevent body scroll when menu is open */
-      body.menu-open {
-        overflow: hidden;
-      }
-
-      @media (max-width: 768px) {
-        nav {
-          padding: 15px 20px;
-        }
-
-        .nav-links {
-          display: none;
-        }
-
-        .hamburger {
-          display: block;
-        }
-
-        .color-transition {
-          height: 100vh;
-        }
-
-        .hero-swiper {
-          width: 70%;
-        }
-
-        .hero-heading h1 {
-          letter-spacing: -2px;
-        }
-
-        .color-transition {
-          height: 100vh;
-        }
-
-        .about-grid {
-          grid-template-columns: 1fr;
-          gap: 40px;
-        }
-
-        .about-image {
-          height: 100%;
-        }
-
-        .services-grid,
-        .portfolio-grid {
-          grid-template-columns: 1fr;
-        }
-
-        .hero-heading h1 {
-          font-size: 80px;
-        }
-
-        .section-title {
-          font-size: 30px;
-        }
-
-        .portfolio {
-          padding: 120px 5px;
-          background: var(--primary-color);
-        }
-        .portfolio-item {
-          position: relative;
-          height: 365px;
-          background: var(--primary-color);
-          overflow: hidden;
-          cursor: pointer;
-          transition: all 0.3s ease;
-        }
-        .portfolio-img {
-          height: 100%;
-          width: 100%;
-          display: block;
-        }
-        .self-image {
-          max-width: 100%;
-          height: auto;
-          display: block;
-        }
-      }
-
-      /* Hide mobile menu button on desktop */
-      .mobile-menu-btn {
-        display: none;
-      }
-
-      /* Desktop only styles */
-      @media (min-width: 769px) {
-        .mobile-menu {
-          display: none !important;
-        }
-
-        .hamburger {
-          display: none !important;
-        }
-
-        .mobile-menu-overlay {
-          display: none !important;
-        }
-        .portfolio-img {
-          height: 100%;
-          display: block;
-          object-fit: contain;
-        }
-        .self-image {
-          max-width: 100%;
-          height: 100%;
-          display: block;
-          object-fit: contain;
-        }
-      }
-
-      .fade-in {
-        opacity: 0;
-        transform: translateY(30px);
-        transition: all 0.8s ease;
-      }
-
-      /* .fade-in h2 {
-        font-size: 100px;
-        font-weight: 500;
-      } */
-
-      .fade-in.visible {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    </style>
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <nav id="navbar">
       <div class="nav-container">
-        <div class="logo">Binterior</div>
+        <div class="logo">
+          <img
+            src="/binterior-logo.png"
+            alt="Binterior logo"
+            style="height: 40px; width: auto; max-width: 180px; display: block"
+          />
+        </div>
         <ul class="nav-links">
           <li><a href="#home">Home</a></li>
-          <li><a href="#about">About</a></li>
+
           <li><a href="#services">Services</a></li>
           <li class="nav-item">
             <a href="#portfolio" class="has-dropdown"
@@ -956,40 +29,39 @@
             <div class="dropdown">
               <div class="dropdown-label">Projekte</div>
               <a
-                href="/portfolio/appartement-art"
+                href="/portfolio/appartement-art.html"
                 class="dropdown-item"
                 data-project="0"
                 >Appartement "Art"</a
               >
               <a
-                href="/portfolio/wintergarten"
+                href="/portfolio/wintergarten.html"
                 class="dropdown-item"
                 data-project="1"
                 >Wintergarten</a
               >
               <a
-                href="/portfolio/airbnb-dachgeschoss"
+                href="/portfolio/airbnb-dachgeschoss.html"
                 class="dropdown-item"
                 data-project="2"
                 >Airbnb Wohnung Dachgeschoss</a
               >
               <a
-                href="/portfolio/heller-wohnbereich"
+                href="/portfolio/heller-wohnbereich.html"
                 class="dropdown-item"
                 data-project="3"
                 >Heller Wohnbereich</a
               >
               <a
-                href="/portfolio/kuechen-wohnbereich"
+                href="/portfolio/kuechen-wohnbereich.html"
                 class="dropdown-item"
                 data-project="4"
                 >Küchen- und Wohnbereich</a
               >
             </div>
           </li>
-          <li><a href="#contact">Kontakt</a></li>
+          <li><a href="kontakt.html">Kontakt</a></li>
         </ul>
-        <!-- Hamburger Menu Button -->
         <div class="hamburger" id="hamburger">
           <span></span>
           <span></span>
@@ -998,12 +70,11 @@
       </div>
     </nav>
 
-    <!-- Mobile Menu Overlay -->
     <div class="mobile-menu" id="mobileMenu">
       <div class="mobile-menu-content">
         <ul class="mobile-nav-links">
           <li><a href="#home">Home</a></li>
-          <li><a href="#about">About</a></li>
+
           <li><a href="#services">Services</a></li>
           <li class="mobile-dropdown">
             <a href="#portfolio" class="mobile-dropdown-toggle"
@@ -1033,38 +104,35 @@
     </div>
 
     <section class="hero" id="home">
-      <!-- Heading behind the slider -->
       <div class="hero-heading">
         <h1>Binterior</h1>
-        <p class="tagline">Thoughtful Design &bull; Beautiful Spaces</p>
+        <p class="tagline">Von der Idee bis zur Umsetzung</p>
       </div>
 
-      <!-- Swiper Image Slider on top -->
-      <div class="swiper hero-swiper">
-        <div class="swiper-wrapper">
-          <div class="swiper-slide">
+      <div class="hero-slider">
+        <div class="hero-slider-track">
+          <div class="hero-slider-slide">
             <img src="./assets/IMG_4063.jpg" alt="Binterior Project 1" />
           </div>
-          <div class="swiper-slide">
+          <div class="hero-slider-slide">
             <img
               src="./assets/appartment-art/IMG_4077.jpg"
               alt="Binterior Project 2"
             />
           </div>
-          <div class="swiper-slide">
+          <div class="hero-slider-slide">
             <img
               src="./assets/airbnb-wohnung-dachgeschoss/IMG_5047.jpg"
               alt="Binterior Project 3"
             />
           </div>
-          <div class="swiper-slide">
+          <div class="hero-slider-slide">
             <img src="./assets/IMG_4070.jpg" alt="Binterior Project 4" />
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Color Transition Section with Scroll Animation -->
     <section class="color-transition">
       <div class="color-waves">
         <div class="color-wave"></div>
@@ -1072,45 +140,29 @@
         <div class="color-wave"></div>
       </div>
       <div class="transition-content">
-        <h2 class="transition-text">Creating Spaces That Inspire</h2>
+        <h2 class="transition-text">
+          Hi, ich bin Bibiana, interior designerin aus Graz – mit einem
+          besonderen Gespür für Räume, Materialien und die Menschen, die darin
+          leben oder arbeiten.
+        </h2>
         <div class="parallax-element" style="top: 20%; left: 10%"></div>
         <div class="parallax-element" style="top: 60%; right: 15%"></div>
         <div class="parallax-element" style="bottom: 30%; left: 20%"></div>
       </div>
     </section>
 
-    <section class="about" id="about">
-      <div class="container">
-        <div class="about-grid fade-in">
-          <div class="about-text">
-            <h2>Be Interior</h2>
-            <p>
-              Willkommen! Ich bin Bibiana, interior designerin aus Graz – mit
-              einem besonderen Gespür für Räume, Materialien und die Menschen,
-              die darin leben oder arbeiten.
-            </p>
-          </div>
-          <div class="about-image">
-            <img
-              class="self-image"
-              src="./assets/portrait/portrait-about.jpg"
-            />
-          </div>
-        </div>
-      </div>
-    </section>
+    <section id="about"></section>
 
     <section class="services" id="services">
-      <!-- <h2 class="section-title fade-in">Our Services</h2> -->
       <div class="container">
-        <div class="about-grid fade-in">
-          <div class="about-image">
+        <div class="about-grid">
+          <div class="about-image fade-in-left">
             <img
               class="self-image"
               src="./assets/portrait/portrait-services.jpg"
             />
           </div>
-          <div class="about-text">
+          <div class="about-text fade-in-right">
             <h2>Services</h2>
             <p>
               Ob Neubau, Renovierung oder gezielte Raumoptimierung – ich
@@ -1202,383 +254,28 @@
       <p class="contact-info fade-in">
         Ich freue mich darauf, Sie und Ihr Projekt kennenzulernen!
       </p>
-      <a href="mailto:hello@binterior.com" class="contact-btn fade-in"
-        >Get In Touch</a
-      >
+      <a href="mailto:hello@binterior.com" class="contact-btn fade-in" aria-label="Send email">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="4" width="20" height="16" rx="2"/>
+          <polyline points="2,4 12,13 22,4"/>
+        </svg>
+      </a>
     </section>
 
     <footer>
-      <div class="footer-content" style="max-width: 1200px; margin: 0 auto">
-        <div
-          class="footer-links"
-          style="
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-bottom: 20px;
-          "
-        >
-          <a
-            href="#home"
-            style="
-              color: white;
-              text-decoration: none;
-              font-size: 14px;
-              transition: opacity 0.3s ease;
-            "
-            >Home</a
-          >
-          <a
-            href="impressum.html"
-            style="
-              color: white;
-              text-decoration: none;
-              font-size: 14px;
-              transition: opacity 0.3s ease;
-            "
-            >Impressum</a
-          >
-          <a
-            href="mailto:hello@binterior.com"
-            style="
-              color: white;
-              text-decoration: none;
-              font-size: 14px;
-              transition: opacity 0.3s ease;
-            "
-            >Kontakt</a
-          >
+      <div class="footer-content">
+        <div class="footer-links">
+          <a href="#home">Home</a>
+          <a href="impressum.html">Impressum</a>
+          <a href="mailto:hello@binterior.com">Kontakt</a>
         </div>
-        <div
-          style="
-            width: 40px;
-            height: 1px;
-            background: #787d5e;
-            margin: 20px auto;
-          "
-        ></div>
+        <div class="footer-divider"></div>
         <p>
           &copy; 2025 Binterior. All rights reserved. | Design with passion.
         </p>
       </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script>
-      const wrapper = document.getElementById("wrapper");
-      const circle = document.getElementById("circle");
-
-      function update() {
-        const wrapperTop = wrapper.getBoundingClientRect().top + window.scrollY;
-        const wrapperHeight = wrapper.offsetHeight;
-        const viewportH = window.innerHeight;
-        const scrollY = window.scrollY;
-
-        const scrolled = scrollY - wrapperTop;
-        const scrollable = wrapperHeight - viewportH;
-        const progress = Math.max(0, Math.min(1, scrolled / scrollable));
-
-        const maxSize =
-          Math.sqrt(
-            viewportH * viewportH + window.innerWidth * window.innerWidth,
-          ) * 2;
-        const size = progress * maxSize;
-
-        circle.style.width = size + "px";
-        circle.style.height = size + "px";
-      }
-
-      window.addEventListener("scroll", update, { passive: true });
-      update();
-      // Swiper initialization
-      // Custom slider: fade out → pause (show heading) → next image pops in
-      const slides = document.querySelectorAll(".hero-swiper .swiper-slide");
-      let currentSlide = 0;
-      let slideTimer;
-
-      function showSlide(index) {
-        slides[index].style.opacity = "1";
-        slides[index].style.transform = "translateX(0)";
-        slides[index].style.transition = "opacity 0.25s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)";
-      }
-
-      function hideSlide(index) {
-        return new Promise((resolve) => {
-          const dir = index % 2 === 0 ? "-100%" : "100%";
-          slides[index].style.transition = "opacity 0.3s ease, transform 0.35s ease";
-          slides[index].style.opacity = "0";
-          slides[index].style.transform = "translateX(" + dir + ")";
-          setTimeout(resolve, 350);
-        });
-      }
-
-      async function nextSlide() {
-        await hideSlide(currentSlide);
-        // Brief pause — heading is visible
-        await new Promise((r) => setTimeout(r, 400));
-        const nextIndex = (currentSlide + 1) % slides.length;
-        currentSlide = nextIndex;
-        // Position next slide off-screen from alternating side
-        const enterDir = currentSlide % 2 === 0 ? "-100%" : "100%";
-        slides[currentSlide].style.transition = "none";
-        slides[currentSlide].style.transform = "translateX(" + enterDir + ")";
-        slides[currentSlide].style.opacity = "0";
-        // Force reflow
-        slides[currentSlide].offsetHeight;
-        showSlide(currentSlide);
-        // Schedule next — last slide stays longer
-        const isLast = currentSlide === slides.length - 1;
-        clearTimeout(slideTimer);
-        slideTimer = setTimeout(nextSlide, isLast ? 6000 : 3000);
-      }
-
-      // Init: stack all slides, show first
-      slides.forEach((slide, i) => {
-        slide.style.position = "absolute";
-        slide.style.inset = "0";
-        slide.style.opacity = i === 0 ? "1" : "0";
-        slide.style.transform = "scale(1)";
-      });
-      const swiperWrapper = document.querySelector(".hero-swiper .swiper-wrapper");
-      swiperWrapper.style.position = "relative";
-
-      // Start — first slide shows for 3s
-      slideTimer = setTimeout(nextSlide, 3000);
-
-      // Hamburger Menu Functionality
-      const hamburger = document.getElementById("hamburger");
-      const mobileMenu = document.getElementById("mobileMenu");
-      const mobileDropdown = document.querySelector(".mobile-dropdown");
-      const mobileLinks = document.querySelectorAll(".mobile-nav-links a");
-      let menuOverlay;
-
-      // Create overlay element
-      menuOverlay = document.createElement("div");
-      menuOverlay.className = "mobile-menu-overlay";
-      document.body.appendChild(menuOverlay);
-
-      // Toggle mobile menu
-      function toggleMobileMenu() {
-        hamburger.classList.toggle("active");
-        mobileMenu.classList.toggle("active");
-        menuOverlay.classList.toggle("active");
-        document.body.classList.toggle("menu-open");
-      }
-
-      // Close mobile menu
-      function closeMobileMenu() {
-        hamburger.classList.remove("active");
-        mobileMenu.classList.remove("active");
-        menuOverlay.classList.remove("active");
-        document.body.classList.remove("menu-open");
-      }
-
-      // Hamburger click event
-      hamburger.addEventListener("click", toggleMobileMenu);
-
-      // Overlay click event
-      menuOverlay.addEventListener("click", closeMobileMenu);
-
-      // Mobile dropdown toggle
-      const mobileDropdownToggle = document.querySelector(
-        ".mobile-dropdown-toggle",
-      );
-      if (mobileDropdownToggle) {
-        mobileDropdownToggle.addEventListener("click", (e) => {
-          e.preventDefault();
-          mobileDropdown.classList.toggle("active");
-        });
-      }
-
-      // Close menu when clicking on links (except dropdown toggle)
-      mobileLinks.forEach((link) => {
-        if (!link.classList.contains("mobile-dropdown-toggle")) {
-          link.addEventListener("click", () => {
-            closeMobileMenu();
-            // If it's an anchor link, smooth scroll
-            const href = link.getAttribute("href");
-            if (href && href.startsWith("#")) {
-              e.preventDefault();
-              const target = document.querySelector(href);
-              if (target) {
-                target.scrollIntoView({
-                  behavior: "smooth",
-                  block: "start",
-                });
-              }
-            }
-          });
-        }
-      });
-
-      // Close menu on escape key
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape" && mobileMenu.classList.contains("active")) {
-          closeMobileMenu();
-        }
-      });
-
-      // Navbar scroll effect
-      window.addEventListener("scroll", function () {
-        const navbar = document.getElementById("navbar");
-        if (window.scrollY > 50) {
-          navbar.classList.add("scrolled");
-        } else {
-          navbar.classList.remove("scrolled");
-        }
-      });
-
-      // Smooth scrolling for anchor links
-      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-        anchor.addEventListener("click", function (e) {
-          e.preventDefault();
-          const target = document.querySelector(this.getAttribute("href"));
-          if (target) {
-            // Special handling for portfolio items
-            if (this.classList.contains("dropdown-item")) {
-              // Close dropdown
-              const dropdown = this.closest(".dropdown");
-              if (dropdown) {
-                dropdown.style.opacity = "0";
-                dropdown.style.visibility = "hidden";
-              }
-
-              // Scroll to portfolio section first, then to specific item
-              const portfolioSection = document.getElementById("portfolio");
-              if (portfolioSection) {
-                portfolioSection.scrollIntoView({
-                  behavior: "smooth",
-                  block: "start",
-                });
-
-                // After scrolling to section, highlight the specific item
-                setTimeout(() => {
-                  target.scrollIntoView({
-                    behavior: "smooth",
-                    block: "center",
-                  });
-
-                  // Add highlight effect
-                  target.classList.add("highlight");
-                  setTimeout(() => {
-                    target.classList.remove("highlight");
-                  }, 2000);
-                }, 800);
-              }
-            } else {
-              // Normal navigation
-              target.scrollIntoView({
-                behavior: "smooth",
-                block: "start",
-              });
-            }
-          }
-        });
-      });
-
-      // Dropdown menu handling
-      const portfolioDropdown = document.querySelector(".nav-item");
-      let dropdownTimeout;
-
-      if (portfolioDropdown) {
-        const dropdown = portfolioDropdown.querySelector(".dropdown");
-        const navbar = document.getElementById("navbar");
-
-        portfolioDropdown.addEventListener("mouseenter", () => {
-          clearTimeout(dropdownTimeout);
-          navbar.style.mixBlendMode = "normal";
-          navbar.style.background = "rgba(255, 255, 255, 0.95)";
-          navbar.querySelectorAll(".nav-links a").forEach((a) => (a.style.color = "var(--dark)"));
-          document.querySelector(".logo").style.color = "var(--primary-color)";
-          dropdown.style.opacity = "1";
-          dropdown.style.visibility = "visible";
-        });
-
-        portfolioDropdown.addEventListener("mouseleave", () => {
-          dropdownTimeout = setTimeout(() => {
-            dropdown.style.opacity = "0";
-            dropdown.style.visibility = "hidden";
-            navbar.style.mixBlendMode = "difference";
-            navbar.style.background = "transparent";
-            navbar.querySelectorAll(".nav-links a").forEach((a) => (a.style.color = ""));
-            document.querySelector(".logo").style.color = "";
-          }, 300);
-        });
-      }
-
-      // Intersection Observer for fade-in animations
-      const observerOptions = {
-        threshold: 0.1,
-        rootMargin: "0px 0px -50px 0px",
-      };
-
-      const observer = new IntersectionObserver(function (entries) {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-          }
-        });
-      }, observerOptions);
-
-      document.querySelectorAll(".fade-in").forEach((el) => {
-        observer.observe(el);
-      });
-
-      // Special observer for transition text
-      const transitionObserver = new IntersectionObserver(
-        function (entries) {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("visible");
-            }
-          });
-        },
-        {
-          threshold: 0.5,
-        },
-      );
-
-      const transitionText = document.querySelector(".transition-text");
-      if (transitionText) {
-        transitionObserver.observe(transitionText);
-      }
-
-      // Parallax effect for transition section
-      window.addEventListener("scroll", () => {
-        const scrolled = window.pageYOffset;
-        const parallaxElements = document.querySelectorAll(".parallax-element");
-
-        parallaxElements.forEach((element, index) => {
-          const speed = 0.5 + index * 0.2;
-          const yPos = -(scrolled * speed);
-          element.style.transform = `translateY(${yPos}px)`;
-        });
-
-        // Dynamic color wave opacity based on scroll
-        const colorWaves = document.querySelectorAll(".color-wave");
-        const transitionSection = document.querySelector(".color-transition");
-        if (transitionSection) {
-          const rect = transitionSection.getBoundingClientRect();
-          const sectionHeight = transitionSection.offsetHeight;
-          const scrollProgress = Math.max(
-            0,
-            Math.min(1, -rect.top / sectionHeight),
-          );
-
-          colorWaves.forEach((wave, index) => {
-            const opacity = 0.1 + scrollProgress * 0.4 * (1 - index * 0.2);
-            wave.style.opacity = opacity;
-          });
-        }
-      });
-
-      // Logo click to scroll to top
-      document.querySelector(".logo").addEventListener("click", function () {
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
-        });
-      });
-    </script>
+    <script src="script.js"></script>
   </body>
 </html>
