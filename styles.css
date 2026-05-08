@@ -71,6 +71,23 @@ nav.scrolled {
   opacity: 0.8;
 }
 
+.logo-text {
+  font-size: 28px;
+  font-weight: 300;
+  letter-spacing: -1px;
+  color: var(--primary-color);
+  animation: logoFadeIn 0.4s ease;
+}
+
+@keyframes logoFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .nav-links {
   display: flex;
   gap: 40px;
@@ -546,7 +563,7 @@ nav.scrolled {
 
 .portfolio {
   position: relative;
-  margin-top: -800px;
+  margin-top: -1200px;
   padding: 10px 50px;
   background: var(--primary-color);
 }

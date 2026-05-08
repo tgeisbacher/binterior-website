@@ -4,388 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Binterior - Kontakt</title>
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link rel="stylesheet" href="styles.css" />
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      :root {
-        --primary-color: #787d5e;
-        --dark: #2c2c2c;
-        --light: #ffffff;
-        --gray: #f5f5f5;
-        --text-gray: #666;
-        --transition-color-1: #e8e6e1;
-        --transition-color-2: #d4d1c9;
-        --transition-color-3: #b8b5ad;
-      }
-
-      html {
-        scroll-behavior: smooth;
-      }
-
       body {
-        font-family: "Helvetica Neue", Arial, sans-serif;
-        line-height: 1.6;
-        color: var(--dark);
-        overflow-x: hidden;
         min-height: 100vh;
         display: flex;
         flex-direction: column;
       }
 
-      /* ── Navigation ── */
-      nav {
-        position: fixed;
-        width: 100%;
-        padding: 20px 50px;
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
-        z-index: 1000;
-        transition: all 0.3s ease;
-      }
-
-      nav.scrolled {
-        padding: 15px 50px;
-        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-      }
-
-      .nav-container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        max-width: 1400px;
-        margin: 0 auto;
-      }
-
-      .logo {
-        font-size: 28px;
-        font-weight: 300;
-        letter-spacing: -1px;
-        color: var(--primary-color);
-        cursor: pointer;
-        transition: opacity 0.3s ease;
-        text-decoration: none;
-      }
-
-      .logo:hover {
-        opacity: 0.8;
-      }
-
-      .nav-links {
-        display: flex;
-        gap: 40px;
-        list-style: none;
-      }
-
-      .nav-links a {
-        text-decoration: none;
-        color: var(--dark);
-        font-size: 14px;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        transition: color 0.3s ease;
-        position: relative;
-      }
-
-      .nav-links a::after {
-        content: "";
-        position: absolute;
-        bottom: -5px;
-        left: 0;
-        width: 0;
-        height: 1px;
-        background: var(--primary-color);
-        transition: width 0.3s ease;
-      }
-
-      .nav-links a:hover::after {
-        width: 100%;
-      }
-
-      .nav-links a.active {
-        color: var(--primary-color);
-      }
-
-      .nav-links a.active::after {
-        width: 100%;
-      }
-
-      /* Dropdown Menu Styles */
-      .nav-item {
-        position: relative;
-      }
-
-      .dropdown {
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        transform: translateX(-50%);
-        background: rgba(255, 255, 255, 0.98);
-        backdrop-filter: blur(10px);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        border: 1px solid rgba(120, 125, 94, 0.1);
-        padding: 20px 0;
-        margin-top: 20px;
-        min-width: 250px;
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.3s ease;
-        z-index: 1000;
-      }
-
-      .dropdown::before {
-        content: "";
-        position: absolute;
-        top: -8px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 0;
-        height: 0;
-        border-left: 8px solid transparent;
-        border-right: 8px solid transparent;
-        border-bottom: 8px solid rgba(255, 255, 255, 0.98);
-      }
-
-      .nav-item:hover .dropdown {
-        opacity: 1;
-        visibility: visible;
-        margin-top: 15px;
-      }
-
-      .dropdown-item {
-        display: block;
-        padding: 12px 30px;
-        color: var(--dark);
-        text-decoration: none;
-        font-size: 13px;
-        letter-spacing: 0.5px;
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .dropdown-item::before {
-        content: "";
-        position: absolute;
-        left: 0;
-        top: 0;
-        height: 100%;
-        width: 3px;
-        background: var(--primary-color);
-        transform: translateX(-100%);
-        transition: transform 0.3s ease;
-      }
-
-      .dropdown-item:hover {
-        background: rgba(120, 125, 94, 0.05);
-        padding-left: 35px;
-      }
-
-      .dropdown-item:hover::before {
-        transform: translateX(0);
-      }
-
-      .dropdown-label {
-        padding: 8px 30px;
-        font-size: 11px;
-        color: var(--primary-color);
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        border-bottom: 1px solid rgba(120, 125, 94, 0.1);
-        margin-bottom: 10px;
-        font-weight: 500;
-      }
-
-      /* ── Hamburger Menu Styles ── */
-      .hamburger {
-        display: none;
-        width: 30px;
-        height: 24px;
-        position: relative;
-        cursor: pointer;
-        z-index: 1002;
-        transition: all 0.3s ease;
-      }
-
-      .hamburger span {
-        position: absolute;
-        width: 100%;
-        height: 2px;
-        background: var(--primary-color);
-        transition: all 0.3s ease;
-        transform-origin: center;
-      }
-
-      .hamburger span:nth-child(1) {
-        top: 0;
-      }
-      .hamburger span:nth-child(2) {
-        top: 11px;
-      }
-      .hamburger span:nth-child(3) {
-        bottom: 0;
-      }
-
-      .hamburger.active span:nth-child(1) {
-        transform: translateY(11px) rotate(45deg);
-      }
-      .hamburger.active span:nth-child(2) {
-        opacity: 0;
-        transform: scaleX(0);
-      }
-      .hamburger.active span:nth-child(3) {
-        transform: translateY(-11px) rotate(-45deg);
-      }
-
-      /* Mobile Menu */
-      .mobile-menu {
-        position: fixed;
-        top: 0;
-        right: -100%;
-        width: 80%;
-        max-width: 400px;
-        height: 100vh;
-        background: var(--light);
-        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
-        transition: right 0.3s ease;
-        z-index: 1001;
-        overflow-y: auto;
-      }
-
-      .mobile-menu.active {
-        right: 0;
-      }
-
-      .mobile-menu-content {
-        padding: 80px 30px 30px;
-      }
-
-      .mobile-nav-links {
-        list-style: none;
-        padding: 0;
-      }
-
-      .mobile-nav-links li {
-        margin-bottom: 10px;
-      }
-
-      .mobile-nav-links a {
-        display: block;
-        padding: 15px 20px;
-        color: var(--dark);
-        text-decoration: none;
-        font-size: 16px;
-        font-weight: 300;
-        letter-spacing: 1px;
-        transition: all 0.3s ease;
-        border-left: 3px solid transparent;
-      }
-
-      .mobile-nav-links a:hover,
-      .mobile-nav-links a:active {
-        background: var(--gray);
-        border-left-color: var(--primary-color);
-        padding-left: 30px;
-      }
-
-      .mobile-dropdown {
-        position: relative;
-      }
-
-      .mobile-dropdown-toggle {
-        position: relative;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .mobile-dropdown-toggle span {
-        font-size: 12px;
-        transition: transform 0.3s ease;
-      }
-
-      .mobile-dropdown.active .mobile-dropdown-toggle span {
-        transform: rotate(180deg);
-      }
-
-      .mobile-dropdown-menu {
-        display: none;
-        list-style: none;
-        padding: 0;
-        background: var(--gray);
-        margin: 5px 0 10px 0;
-      }
-
-      .mobile-dropdown.active .mobile-dropdown-menu {
-        display: block;
-      }
-
-      .mobile-dropdown-menu a {
-        padding: 12px 20px 12px 40px;
-        font-size: 14px;
-        border-left: 3px solid transparent;
-      }
-
-      .mobile-dropdown-menu a:hover {
-        background: rgba(120, 125, 94, 0.1);
-        border-left-color: var(--primary-color);
-      }
-
-      .mobile-menu-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.3s ease;
-        z-index: 1000;
-      }
-
-      .mobile-menu-overlay.active {
-        opacity: 1;
-        visibility: visible;
-      }
-
-      body.menu-open {
-        overflow: hidden;
-      }
-
       /* ── Kontakt Main Content ── */
-      .kontakt-hero {
-        padding-top: 120px;
-        padding-bottom: 80px;
-        background: var(--gray);
-        text-align: center;
-      }
-
-      .kontakt-hero h1 {
-        font-size: clamp(40px, 6vw, 80px);
-        font-weight: 300;
-        color: var(--primary-color);
-        letter-spacing: -1px;
-        margin-bottom: 15px;
-        animation: fadeInUp 0.8s ease forwards;
-      }
-
-      .kontakt-hero p {
-        font-size: 18px;
-        color: var(--text-gray);
-        font-weight: 300;
-        max-width: 500px;
-        margin: 0 auto;
-        animation: fadeInUp 0.8s ease 0.2s forwards;
-        opacity: 0;
-      }
-
       .kontakt-section {
         flex: 1;
-        padding: 80px 50px;
+        padding: 120px 50px 80px;
         background: var(--light);
       }
 
@@ -521,68 +152,10 @@
         pointer-events: none;
       }
 
-      /* ── Footer ── */
-      footer {
-        padding: 30px;
-        background: var(--dark);
-        color: var(--light);
-        text-align: center;
-        font-size: 14px;
-      }
-
-      footer a {
-        color: white;
-        text-decoration: none;
-        font-size: 14px;
-        transition: opacity 0.3s ease;
-      }
-
-      footer a:hover {
-        opacity: 0.7;
-      }
-
-      /* ── Animations ── */
-      @keyframes fadeInUp {
-        from {
-          opacity: 0;
-          transform: translateY(30px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      .fade-in {
-        opacity: 0;
-        transform: translateY(30px);
-        transition: all 0.8s ease;
-      }
-
-      .fade-in.visible {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
       /* ── Responsive ── */
       @media (max-width: 768px) {
-        nav {
-          padding: 15px 20px;
-        }
-        .nav-links {
-          display: none;
-        }
-        .hamburger {
-          display: block;
-        }
-
-        .kontakt-hero {
-          padding-top: 100px;
-          padding-bottom: 50px;
-        }
-
         .kontakt-section {
-          padding: 50px 20px;
+          padding: 100px 20px 50px;
         }
 
         .kontakt-grid {
@@ -595,28 +168,16 @@
           order: -1;
         }
       }
-
-      @media (min-width: 769px) {
-        .mobile-menu {
-          display: none !important;
-        }
-        .hamburger {
-          display: none !important;
-        }
-        .mobile-menu-overlay {
-          display: none !important;
-        }
-      }
     </style>
   </head>
   <body>
-    <!-- ── Navigation (same as index.html) ── -->
     <nav id="navbar">
       <div class="nav-container">
-        <a class="logo" href="index.html">Binterior</a>
+        <div class="logo">
+          <img src="binterior-logo.png" alt="Binterior logo" style="height:40px;width:auto;max-width:180px;display:block;" />
+        </div>
         <ul class="nav-links">
           <li><a href="index.html#home">Home</a></li>
-          <li><a href="index.html#about">About</a></li>
           <li><a href="index.html#services">Services</a></li>
           <li class="nav-item">
             <a href="index.html#portfolio" class="has-dropdown"
@@ -625,27 +186,11 @@
             >
             <div class="dropdown">
               <div class="dropdown-label">Projekte</div>
-              <a href="./portfolio/appartement-art.html" class="dropdown-item"
-                >Appartement "Art"</a
-              >
-              <a href="./portfolio/wintergarten.html" class="dropdown-item"
-                >Wintergarten</a
-              >
-              <a
-                href="./portfolio/airbnb-dachgeschoss.html"
-                class="dropdown-item"
-                >Airbnb Wohnung Dachgeschoss</a
-              >
-              <a
-                href="./portfolio/heller-wohnbereich.html"
-                class="dropdown-item"
-                >Heller Wohnbereich</a
-              >
-              <a
-                href="./portfolio/kuechen-wohnbereich.html"
-                class="dropdown-item"
-                >Küchen- und Wohnbereich</a
-              >
+              <a href="portfolio/appartement-art.html" class="dropdown-item">Appartement "Art"</a>
+              <a href="portfolio/wintergarten.html" class="dropdown-item">Wintergarten</a>
+              <a href="portfolio/airbnb-dachgeschoss.html" class="dropdown-item">Airbnb Wohnung Dachgeschoss</a>
+              <a href="portfolio/heller-wohnbereich.html" class="dropdown-item">Heller Wohnbereich</a>
+              <a href="portfolio/kuechen-wohnbereich.html" class="dropdown-item">Küchen- und Wohnbereich</a>
             </div>
           </li>
           <li><a href="kontakt.html" class="active">Kontakt</a></li>
@@ -658,37 +203,19 @@
       </div>
     </nav>
 
-    <!-- Mobile Menu -->
     <div class="mobile-menu" id="mobileMenu">
       <div class="mobile-menu-content">
         <ul class="mobile-nav-links">
           <li><a href="index.html#home">Home</a></li>
-          <li><a href="index.html#about">About</a></li>
           <li><a href="index.html#services">Services</a></li>
           <li class="mobile-dropdown">
-            <a href="index.html#portfolio" class="mobile-dropdown-toggle"
-              >Portfolio <span>▼</span></a
-            >
+            <a href="index.html#portfolio" class="mobile-dropdown-toggle">Portfolio <span>▼</span></a>
             <ul class="mobile-dropdown-menu">
-              <li>
-                <a href="./portfolio/appartement-art.html">Appartement "Art"</a>
-              </li>
-              <li><a href="./portfolio/wintergarten.html">Wintergarten</a></li>
-              <li>
-                <a href="./portfolio/airbnb-dachgeschoss.html"
-                  >Airbnb Wohnung</a
-                >
-              </li>
-              <li>
-                <a href="./portfolio/heller-wohnbereich.html"
-                  >Heller Wohnbereich</a
-                >
-              </li>
-              <li>
-                <a href="./portfolio/kuechen-wohnbereich.html"
-                  >Küchen & Wohnbereich</a
-                >
-              </li>
+              <li><a href="portfolio/appartement-art.html">Appartement "Art"</a></li>
+              <li><a href="portfolio/wintergarten.html">Wintergarten</a></li>
+              <li><a href="portfolio/airbnb-dachgeschoss.html">Airbnb Wohnung</a></li>
+              <li><a href="portfolio/heller-wohnbereich.html">Heller Wohnbereich</a></li>
+              <li><a href="portfolio/kuechen-wohnbereich.html">Küchen & Wohnbereich</a></li>
             </ul>
           </li>
           <li><a href="kontakt.html">Kontakt</a></li>
@@ -727,9 +254,7 @@
             </div>
             <div class="kontakt-text">
               <h3>E-Mail</h3>
-              <a href="mailto:office@binterior.at"
-                >bibiana.kienreich@binterior.at</a
-              >
+              <a href="mailto:office@binterior.at">hello@binterior.at</a>
             </div>
           </div>
 
@@ -755,8 +280,8 @@
               </svg>
             </div>
             <div class="kontakt-text">
-              <h3>Standort</h3>
-              <p>Graz, Österreich</p>
+              <h3>Firmensitz</h3>
+              <p>Grabenstraße 13, 8010 Graz</p>
             </div>
           </div>
 
@@ -770,57 +295,40 @@
 
         <!-- Right – Portrait Image -->
         <div class="kontakt-portrait fade-in">
-          <!-- Replace with your portrait image path -->
           <img src="./IMG_9351 copy.jpg" alt="Bibiana – Interior Designerin" />
         </div>
       </div>
     </section>
 
-    <!-- ── Footer (same as index.html) ── -->
+    <!-- ── Footer ── -->
     <footer>
-      <div class="footer-content" style="max-width: 1200px; margin: 0 auto">
-        <div
-          class="footer-links"
-          style="
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-bottom: 20px;
-          "
-        >
+      <div class="footer-content">
+        <div class="footer-links">
           <a href="index.html">Home</a>
           <a href="impressum.html">Impressum</a>
           <a href="kontakt.html">Kontakt</a>
         </div>
-        <div
-          style="
-            width: 40px;
-            height: 1px;
-            background: #787d5e;
-            margin: 20px auto;
-          "
-        ></div>
-        <p>
-          &copy; 2025 Binterior. All rights reserved. | Design with passion.
-        </p>
+        <div class="footer-divider"></div>
+        <p>&copy; 2025 Binterior. All rights reserved. | Design with passion.</p>
       </div>
     </footer>
 
     <script>
       // Navbar scroll effect
+      const navbar = document.getElementById("navbar");
       window.addEventListener("scroll", function () {
-        const navbar = document.getElementById("navbar");
-        if (window.scrollY > 50) {
-          navbar.classList.add("scrolled");
-        } else {
-          navbar.classList.remove("scrolled");
-        }
+        navbar.classList.toggle("scrolled", window.scrollY > 50);
       });
 
-      // Hamburger Menu
+      // Logo navigates home
+      document.querySelector(".logo").addEventListener("click", () => {
+        window.location.href = "index.html";
+      });
+
+      // Hamburger menu
       const hamburger = document.getElementById("hamburger");
       const mobileMenu = document.getElementById("mobileMenu");
-      let menuOverlay = document.createElement("div");
+      const menuOverlay = document.createElement("div");
       menuOverlay.className = "mobile-menu-overlay";
       document.body.appendChild(menuOverlay);
 
@@ -830,7 +338,6 @@
         menuOverlay.classList.toggle("active");
         document.body.classList.toggle("menu-open");
       }
-
       function closeMobileMenu() {
         hamburger.classList.remove("active");
         mobileMenu.classList.remove("active");
@@ -840,10 +347,11 @@
 
       hamburger.addEventListener("click", toggleMobileMenu);
       menuOverlay.addEventListener("click", closeMobileMenu);
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeMobileMenu();
+      });
 
-      const mobileDropdownToggle = document.querySelector(
-        ".mobile-dropdown-toggle",
-      );
+      const mobileDropdownToggle = document.querySelector(".mobile-dropdown-toggle");
       if (mobileDropdownToggle) {
         mobileDropdownToggle.addEventListener("click", (e) => {
           e.preventDefault();
@@ -851,30 +359,23 @@
         });
       }
 
-      document
-        .querySelectorAll(".mobile-nav-links a:not(.mobile-dropdown-toggle)")
-        .forEach((link) => {
-          link.addEventListener("click", closeMobileMenu);
-        });
+      // Desktop portfolio dropdown
+      const portfolioDropdown = document.querySelector(".nav-item");
+      if (portfolioDropdown) {
+        const dropdown = portfolioDropdown.querySelector(".dropdown");
+        let t;
+        portfolioDropdown.addEventListener("mouseenter", () => { clearTimeout(t); dropdown.style.opacity = "1"; dropdown.style.visibility = "visible"; });
+        portfolioDropdown.addEventListener("mouseleave", () => { t = setTimeout(() => { dropdown.style.opacity = "0"; dropdown.style.visibility = "hidden"; }, 300); });
+      }
 
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape" && mobileMenu.classList.contains("active"))
-          closeMobileMenu();
-      });
-
-      // Intersection Observer for fade-in animations
+      // Fade-in observer
       const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) entry.target.classList.add("visible");
-          });
-        },
-        { threshold: 0.1, rootMargin: "0px 0px -50px 0px" },
+        (entries) => entries.forEach((entry) => {
+          if (entry.isIntersecting) entry.target.classList.add("visible");
+        }),
+        { threshold: 0.1, rootMargin: "0px 0px 100px 0px" },
       );
-
-      document
-        .querySelectorAll(".fade-in")
-        .forEach((el) => observer.observe(el));
+      document.querySelectorAll(".fade-in").forEach((el) => observer.observe(el));
     </script>
   </body>
 </html>

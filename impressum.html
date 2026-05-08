@@ -428,11 +428,11 @@
     <!-- Navigation -->
     <nav id="navbar">
       <div class="nav-container">
-        <div class="logo">Binterior</div>
+        <div class="logo"><img src="binterior-logo.png" alt="Binterior logo" style="height:40px;width:auto;max-width:180px;display:block;" /></div>
         <ul class="nav-links">
-          <li><a href="/index">Home</a></li>
-          <li><a href="/index">About</a></li>
-          <li><a href="/index">Services</a></li>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="index.html">About</a></li>
+          <li><a href="index.html">Services</a></li>
           <li class="nav-item">
             <a href="#portfolio" class="has-dropdown"
               >Portfolio
@@ -441,38 +441,38 @@
             <div class="dropdown">
               <div class="dropdown-label">Projekte</div>
               <a
-                href="/portfolio/appartement-art"
+                href="portfolio/appartement-art.html"
                 class="dropdown-item"
                 data-project="0"
                 >Appartement "Art"</a
               >
               <a
-                href="/portfolio/wintergarten"
+                href="portfolio/wintergarten.html"
                 class="dropdown-item"
                 data-project="1"
                 >Wintergarten</a
               >
               <a
-                href="/portfolio/airbnb-dachgeschoss"
+                href="portfolio/airbnb-dachgeschoss.html"
                 class="dropdown-item"
                 data-project="2"
                 >Airbnb Wohnung Dachgeschoss</a
               >
               <a
-                href="/portfolio/heller-wohnbereich"
+                href="portfolio/heller-wohnbereich.html"
                 class="dropdown-item"
                 data-project="3"
                 >Heller Wohnbereich</a
               >
               <a
-                href="/portfolio/kuechen-wohnbereich"
+                href="portfolio/kuechen-wohnbereich.html"
                 class="dropdown-item"
                 data-project="4"
                 >Küchen- und Wohnbereich</a
               >
             </div>
           </li>
-          <li><a href="/index">Kontakt</a></li>
+          <li><a href="index.html">Kontakt</a></li>
         </ul>
         <!-- Hamburger Menu Button -->
         <div class="hamburger" id="hamburger">
@@ -487,32 +487,32 @@
     <div class="mobile-menu" id="mobileMenu">
       <div class="mobile-menu-content">
         <ul class="mobile-nav-links">
-          <li><a href="/index">Home</a></li>
-          <li><a href="/index">About</a></li>
-          <li><a href="/index">Services</a></li>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="index.html">About</a></li>
+          <li><a href="index.html">Services</a></li>
           <li class="mobile-dropdown">
             <a href="#portfolio" class="mobile-dropdown-toggle"
               >Portfolio <span>▼</span></a
             >
             <ul class="mobile-dropdown-menu">
               <li>
-                <a href="/portfolio/appartement-art">Appartement "Art"</a>
+                <a href="portfolio/appartement-art.html">Appartement "Art"</a>
               </li>
-              <li><a href="/portfolio/wintergarten">Wintergarten</a></li>
+              <li><a href="portfolio/wintergarten.html">Wintergarten</a></li>
               <li>
-                <a href="/portfolio/airbnb-dachgeschoss">Airbnb Wohnung</a>
-              </li>
-              <li>
-                <a href="/portfolio/heller-wohnbereich">Heller Wohnbereich</a>
+                <a href="portfolio/airbnb-dachgeschoss.html">Airbnb Wohnung</a>
               </li>
               <li>
-                <a href="/portfolio/kuechen-wohnbereich"
+                <a href="portfolio/heller-wohnbereich.html">Heller Wohnbereich</a>
+              </li>
+              <li>
+                <a href="portfolio/kuechen-wohnbereich.html"
                   >Küchen & Wohnbereich</a
                 >
               </li>
             </ul>
           </li>
-          <li><a href="/index">Kontakt</a></li>
+          <li><a href="index.html">Kontakt</a></li>
         </ul>
       </div>
     </div>
@@ -686,6 +686,17 @@
 
       // Hamburger click event
       hamburger.addEventListener("click", toggleMobileMenu);
+
+      // Navbar scroll shadow
+      const navbar = document.getElementById("navbar");
+      window.addEventListener("scroll", function () {
+        navbar.classList.toggle("scrolled", window.scrollY > 50);
+      });
+
+      // Logo navigates home
+      document.querySelector(".logo").addEventListener("click", function () {
+        window.location.href = "index.html";
+      });
 
       // Overlay click event
       menuOverlay.addEventListener("click", closeMobileMenu);

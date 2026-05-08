@@ -35,23 +35,23 @@ function showSlide(index) {
   heroSlides[index].style.opacity = "1";
   heroSlides[index].style.transform = "translateX(0)";
   heroSlides[index].style.transition =
-    "opacity 0.25s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)";
+    "opacity 0.15s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1)";
 }
 
 function hideSlide(index) {
   return new Promise((resolve) => {
     const dir = index % 2 === 0 ? "-100%" : "100%";
     heroSlides[index].style.transition =
-      "opacity 0.3s ease, transform 0.35s ease";
+      "opacity 0.15s ease, transform 0.2s ease";
     heroSlides[index].style.opacity = "0";
     heroSlides[index].style.transform = "translateX(" + dir + ")";
-    setTimeout(resolve, 350);
+    setTimeout(resolve, 200);
   });
 }
 
 async function nextSlide() {
   await hideSlide(currentSlide);
-  await new Promise((r) => setTimeout(r, 400));
+  await new Promise((r) => setTimeout(r, 150));
 
   currentSlide = (currentSlide + 1) % heroSlides.length;
 
@@ -114,9 +114,8 @@ mobileLinks.forEach((link) => {
       if (href && href.startsWith("#")) {
         e.preventDefault();
         const target = document.querySelector(href);
-        if (target) {
+        if (target)
           target.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
       }
     });
   }
@@ -128,46 +127,60 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
-// ===== Navbar Scroll Effect =====
+// ===== Navbar Scroll Effect + Logo Swap =====
+
+const navbar = document.getElementById("navbar");
+const hero = document.getElementById("home");
+const logo = document.querySelector(".logo");
+let logoIsText = false;
 
 window.addEventListener("scroll", function () {
-  const navbar = document.getElementById("navbar");
+  const heroBottom = hero ? hero.offsetTop + hero.offsetHeight : 0;
+
   if (window.scrollY > 50) {
     navbar.classList.add("scrolled");
   } else {
     navbar.classList.remove("scrolled");
   }
+
+  const shouldBeText = window.scrollY > heroBottom - 100;
+  if (shouldBeText && !logoIsText) {
+    logo.innerHTML = '<span class="logo-text">Binterior</span>';
+    logoIsText = true;
+  } else if (!shouldBeText && logoIsText) {
+    logo.innerHTML =
+      '<img src="binterior-logo.png" alt="Binterior logo" style="height:40px;width:auto;max-width:180px;display:block;" />';
+    logoIsText = false;
+  }
 });
 
 // ===== Smooth Scrolling =====
 
-document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-  anchor.addEventListener("click", function (e) {
-    e.preventDefault();
-    const target = document.querySelector(this.getAttribute("href"));
-    if (!target) return;
+document.addEventListener("click", function (e) {
+  const anchor = e.target.closest('a[href^="#"]');
+  if (!anchor) return;
+  const target = document.querySelector(anchor.getAttribute("href"));
+  if (!target) return;
+  e.preventDefault();
 
-    if (this.classList.contains("dropdown-item")) {
-      const dropdown = this.closest(".dropdown");
-      if (dropdown) {
-        dropdown.style.opacity = "0";
-        dropdown.style.visibility = "hidden";
-      }
-
-      const portfolioSection = document.getElementById("portfolio");
-      if (portfolioSection) {
-        portfolioSection.scrollIntoView({ behavior: "smooth", block: "start" });
-
-        setTimeout(() => {
-          target.scrollIntoView({ behavior: "smooth", block: "center" });
-          target.classList.add("highlight");
-          setTimeout(() => target.classList.remove("highlight"), 2000);
-        }, 800);
-      }
-    } else {
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
+  if (anchor.classList.contains("dropdown-item")) {
+    const dropdown = anchor.closest(".dropdown");
+    if (dropdown) {
+      dropdown.style.opacity = "0";
+      dropdown.style.visibility = "hidden";
     }
-  });
+    const portfolioSection = document.getElementById("portfolio");
+    if (portfolioSection) {
+      portfolioSection.scrollIntoView({ behavior: "smooth", block: "start" });
+      setTimeout(() => {
+        target.scrollIntoView({ behavior: "smooth", block: "center" });
+        target.classList.add("highlight");
+        setTimeout(() => target.classList.remove("highlight"), 2000);
+      }, 800);
+    }
+  } else {
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
 });
 
 // ===== Dropdown Menu =====
@@ -211,7 +224,7 @@ document
 
 const transitionText = document.querySelector(".transition-text");
 if (transitionText) {
-  const words = transitionText.textContent.split(" ");
+  const words = transitionText.textContent.trim().split(/\s+/).filter((w) => w.length > 0);
   transitionText.innerHTML = words
     .map(
       (word, i) =>
