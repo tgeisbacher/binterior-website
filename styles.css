@@ -962,6 +962,10 @@ body.menu-open {
     width: 90%;
   }
 
+  .hero-heading {
+    top: 42%;
+  }
+
   .hero-heading h1 {
     font-size: clamp(72px, 22vw, 120px);
     letter-spacing: -2px;
