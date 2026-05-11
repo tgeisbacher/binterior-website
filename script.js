@@ -35,23 +35,23 @@ function showSlide(index) {
   heroSlides[index].style.opacity = "1";
   heroSlides[index].style.transform = "translateX(0)";
   heroSlides[index].style.transition =
-    "opacity 0.15s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1)";
+    "opacity 0.5s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)";
 }
 
 function hideSlide(index) {
   return new Promise((resolve) => {
     const dir = index % 2 === 0 ? "-100%" : "100%";
     heroSlides[index].style.transition =
-      "opacity 0.15s ease, transform 0.2s ease";
+      "opacity 0.5s ease, transform 0.6s ease";
     heroSlides[index].style.opacity = "0";
     heroSlides[index].style.transform = "translateX(" + dir + ")";
-    setTimeout(resolve, 200);
+    setTimeout(resolve, 600);
   });
 }
 
 async function nextSlide() {
   await hideSlide(currentSlide);
-  await new Promise((r) => setTimeout(r, 150));
+  await new Promise((r) => setTimeout(r, 200));
 
   currentSlide = (currentSlide + 1) % heroSlides.length;
 
